@@ -1,0 +1,62 @@
+---
+interface Props {
+  authors: string;
+  title: string;
+  corresponding: boolean;
+  journal: string;
+  ref: string;
+  year: string;
+  doi?: string;
+  pdf?: string;
+  badges: string[];
+  layman?: string;
+  image?: string;
+}
+
+const { authors, title, corresponding, journal, ref, year, doi, pdf, badges, layman, image } = Astro.props;
+
+const DOWNLOAD_ICON = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+
+// Bold the author name and add corresponding symbol
+const corrSup = corresponding ? '<sup>†</sup>' : '';
+const authorsHtml = authors.replace(
+  /(A\.\s*D\.\s*Putintsev\*?)/g,
+  `<strong>$1</strong>${corrSup}`
+);
+
+const badgesHtml = badges.map(b => {
+  const isGold = b === "Editor's Choice" || b === "Editor's Suggestion";
+  return `<span class="badge${isGold ? ' badge-gold' : ''}">${b}</span>`;
+}).join('');
+---
+
+<div
+  class="pub-card"
+  data-journal={journal}
+  data-year={year}
+  data-title={title}
+  data-layman={layman || ''}
+  data-image={image ? `/${image}` : ''}
+>
+  <div class="pub-title">
+    {doi
+      ? <a href={doi} target="_blank" class="pub-title-link" onclick="event.stopPropagation()">{title}</a>
+      : title
+    }
+    {badgesHtml && <Fragment set:html={'&ensp;' + badgesHtml} />}
+  </div>
+  <div class="pub-authors" set:html={authorsHtml} />
+  <div class="pub-meta">
+    <span class="pub-journal">{journal}</span>
+    <span style="color: var(--border-color)">·</span>
+    <span>{ref} ({year})</span>
+    {pdf
+      ? <a href={pdf} target="_blank" class="pub-download-btn" onclick="event.stopPropagation()" title="Download PDF">
+          <Fragment set:html={DOWNLOAD_ICON} />
+        </a>
+      : <span class="pub-download-btn pub-download-btn--inactive" title="No PDF available">
+          <Fragment set:html={DOWNLOAD_ICON} />
+        </span>
+    }
+  </div>
+</div>

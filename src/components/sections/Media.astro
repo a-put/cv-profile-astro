@@ -1,0 +1,91 @@
+---
+import MediaCard from '../cards/MediaCard.astro';
+import MediaListRow from '../cards/MediaListRow.astro';
+
+interface MediaItem {
+  title: string;
+  source?: string;
+  date?: string;
+  url?: string;
+  image?: string;
+  description?: string;
+}
+
+interface MediaGroup {
+  label: string;
+  items: Array<{
+    title: string;
+    source?: string;
+    date?: string;
+    url?: string;
+  }>;
+}
+
+interface Props {
+  media?: MediaItem[];
+  media_groups?: MediaGroup[];
+}
+
+const { media = [], media_groups = [] } = Astro.props;
+
+const featuredItems = media.slice(0, 4);
+const restItems = media.slice(4);
+const hasContent = media.length > 0 || media_groups.length > 0;
+---
+
+<section id="tab-media" class="tab-section hidden">
+  <h2 class="section-title">Media</h2>
+
+  {!hasContent && (
+    <p style="color:var(--text-tertiary);font-size:0.875rem;">No media entries yet.</p>
+  )}
+
+  {featuredItems.length > 0 && (
+    <div class="media-grid">
+      {featuredItems.map(item => (
+        <MediaCard
+          title={item.title}
+          source={item.source}
+          date={item.date}
+          url={item.url}
+          image={item.image}
+          description={item.description}
+        />
+      ))}
+    </div>
+  )}
+
+  {restItems.length > 0 && (
+    <>
+      <p class="subsection-label">More Coverage</p>
+      <div class="media-list-rows">
+        {restItems.map(item => (
+          <MediaListRow
+            title={item.title}
+            source={item.source}
+            date={item.date}
+            url={item.url}
+          />
+        ))}
+      </div>
+    </>
+  )}
+
+  {media_groups.map(group => (
+    group.items?.length > 0 && (
+      <>
+        <p class="subsection-label">{group.label}</p>
+        <div class="media-list-rows">
+          {group.items.map(item => (
+            <MediaListRow
+              title={item.title}
+              source={item.source}
+              date={item.date}
+              url={item.url}
+            />
+          ))}
+        </div>
+      </>
+    )
+  ))}
+</section>

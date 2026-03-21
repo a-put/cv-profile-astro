@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string;
+  source?: string;
+  date?: string;
+  url?: string;
+  image?: string;
+  description?: string;
+}
+
+const { title, source, date, url, image, description } = Astro.props;
+const meta = [source, date].filter(Boolean).join(' · ');
+---
+
+<a class="media-card" href={url || '#'} target={url ? '_blank' : undefined} rel={url ? 'noopener noreferrer' : undefined}>
+  {image && (
+    <div class="media-img-wrap">
+      <img src={`/${image}`} alt={title} loading="lazy" />
+    </div>
+  )}
+  <div class="media-body">
+    <div class="media-title">{title}</div>
+    {description && <div class="media-desc">{description}</div>}
+    <div class="media-meta">
+      {meta}{url && <span class="media-arrow"> ↗</span>}
+    </div>
+  </div>
+</a>

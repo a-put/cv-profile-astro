@@ -1,0 +1,62 @@
+---
+import PublicationCard from '../cards/PublicationCard.astro';
+
+interface Props {
+  publications: Array<{
+    authors: string;
+    title: string;
+    corresponding: boolean;
+    journal: string;
+    ref: string;
+    year: string;
+    doi?: string;
+    pdf?: string;
+    badges: string[];
+    layman?: string;
+    image?: string;
+  }>;
+  orcid?: string;
+  googleScholar?: string;
+}
+
+const { publications, orcid, googleScholar } = Astro.props;
+---
+
+<section id="tab-publications" class="tab-section hidden">
+  <h2 class="section-title">Publications</h2>
+
+  <div class="flex flex-wrap gap-3 mb-5">
+    {orcid && (
+      <a href={orcid} target="_blank" rel="noopener noreferrer" class="pub-profile-btn">
+        <img src="/orcid.png" alt="ORCID" /><span>ORCID</span>
+      </a>
+    )}
+    {googleScholar && (
+      <a href={googleScholar} target="_blank" rel="noopener noreferrer" class="pub-profile-btn">
+        <img src="/GoogleScholar.png" alt="Google Scholar" /><span>Google Scholar</span>
+      </a>
+    )}
+  </div>
+
+  <p class="text-xs mb-5" style="color: var(--text-tertiary);">
+    * co-first author &nbsp;·&nbsp; <sup>†</sup> corresponding author
+  </p>
+
+  <div class="flex flex-col gap-3">
+    {publications.map(pub => (
+      <PublicationCard
+        authors={pub.authors}
+        title={pub.title}
+        corresponding={pub.corresponding}
+        journal={pub.journal}
+        ref={pub.ref}
+        year={pub.year}
+        doi={pub.doi}
+        pdf={pub.pdf}
+        badges={pub.badges}
+        layman={pub.layman}
+        image={pub.image}
+      />
+    ))}
+  </div>
+</section>

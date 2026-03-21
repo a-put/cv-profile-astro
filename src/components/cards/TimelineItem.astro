@@ -1,0 +1,25 @@
+---
+interface Props {
+  type: string;
+  title: string;
+  subtitle?: string | null;
+  period?: string | null;
+  url?: string | null;
+}
+
+const { type, title, subtitle, period, url } = Astro.props;
+---
+
+<div class={`tl-item tl-item--${type}`}>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">
+      {url
+        ? <a href={url} target="_blank" rel="noopener noreferrer" class="tl-card-link">{title}</a>
+        : title
+      }
+    </div>
+    {subtitle && <div class="tl-card-sub">{subtitle}</div>}
+    {period && <div class="tl-card-period">{period}</div>}
+  </div>
+</div>

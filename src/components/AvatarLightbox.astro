@@ -1,0 +1,12 @@
+---
+interface Props {
+  avatar?: string;
+}
+
+const { avatar = 'assets/avatar.jpg' } = Astro.props;
+---
+
+<div id="avatar-lightbox" role="dialog" aria-modal="true" aria-label="Profile photo enlarged">
+  <div class="lb-backdrop"></div>
+  <img class="lb-img" src={`/${avatar}`} alt="Profile photo enlarged" />
+</div>

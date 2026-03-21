@@ -1,0 +1,54 @@
+---
+import EducationCard from '../cards/EducationCard.astro';
+
+interface Props {
+  about: string;
+  education: Array<{
+    degree: string;
+    institution: string;
+    period: string;
+    location: string;
+    note?: string;
+  }>;
+  explainer?: {
+    headline?: string;
+    body?: string;
+  };
+}
+
+const { about, education, explainer } = Astro.props;
+
+// Replicate the markdown-bold parsing from main.js
+const aboutHtml = about
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+  .replace(/\n\n/g, '<br><br>');
+
+const hasExplainer = explainer && (explainer.headline || explainer.body);
+---
+
+<section id="tab-about" class="tab-section">
+  <h2 class="section-title">About</h2>
+
+  {hasExplainer && (
+    <div class="explainer-card">
+      {explainer!.headline && <div class="explainer-headline">{explainer!.headline}</div>}
+      {explainer!.body && <p class="explainer-body">{explainer!.body}</p>}
+    </div>
+  )}
+
+  <p id="about-text" class="text-sm leading-relaxed" style="color: var(--text-secondary); max-width: 60ch;" set:html={aboutHtml} />
+
+  <p class="subsection-label">Education</p>
+  <div class="flex flex-col gap-3">
+    {education.map(item => (
+      <EducationCard
+        degree={item.degree}
+        institution={item.institution}
+        period={item.period}
+        location={item.location}
+        note={item.note}
+      />
+    ))}
+  </div>
+</section>

@@ -1,0 +1,30 @@
+---
+import ExperienceCard from '../cards/ExperienceCard.astro';
+
+interface Props {
+  experience: Array<{
+    role: string;
+    company: string;
+    period: string;
+    location: string;
+    bullets: string[];
+  }>;
+}
+
+const { experience } = Astro.props;
+---
+
+<section id="tab-experience" class="tab-section hidden">
+  <h2 class="section-title">Experience</h2>
+  <div class="flex flex-col gap-4">
+    {experience.map(job => (
+      <ExperienceCard
+        role={job.role}
+        company={job.company}
+        period={job.period}
+        location={job.location}
+        bullets={job.bullets}
+      />
+    ))}
+  </div>
+</section>

@@ -1,0 +1,26 @@
+---
+interface Props {
+  role: string;
+  company: string;
+  period: string;
+  location: string;
+  bullets: string[];
+}
+
+const { role, company, period, location, bullets } = Astro.props;
+---
+
+<div class="exp-card">
+  <div class="flex justify-between items-start gap-3 flex-wrap">
+    <div>
+      <div class="exp-role">{role}</div>
+      <div class="exp-meta">{company} · {location}</div>
+    </div>
+    <span class="exp-period">{period}</span>
+  </div>
+  {bullets.length > 0 && (
+    <ul>
+      {bullets.map(b => <li>{b}</li>)}
+    </ul>
+  )}
+</div>

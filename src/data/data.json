@@ -1,0 +1,436 @@
+{
+  "avatar": "assets/avatar.jpg",
+  "headerBg": null,
+  "explainer": {},
+  "name": "Anton Putintsev",
+  "degree": "PhD",
+  "title": "Researcher/Engineer · Optical & Neuromorphic Computing",
+  "taglines": [
+    "Building AI hardware with light",
+    "Optical & neuromorphic computing",
+    "Liquid light logic gates pioneer",
+    "Bridging light and AI"
+  ],
+  "cvLink": "assets/CV_Anton_Putintsev.pdf",
+  "location": "",
+  "languages": "",
+  "email": "putintsev.ad@gmail.com",
+  "github": "",
+  "linkedin": "https://www.linkedin.com/in/anton-putintsev/",
+  "facebook": "https://www.facebook.com/anton.putintsev.5",
+  "telegram": "https://t.me/antonputintsev",
+  "googleScholar": "https://scholar.google.com/citations?user=0DTNvukAAAAJ&hl=en",
+  "orcid": "https://orcid.org/0000-0002-9192-1344",
+  "about": "**tldr:** Optical physicist building next-generation AI hardware using light. Led the first room-temperature demonstration of polariton logic gates; now targeting AI accelerator development. Passionate about scientific research, innovation, and the development of future technologies.\n\nPhysicist with 6+ years pioneering optical and neuromorphic computing architectures. Led the first demonstration of room-temperature universal logic gates using 'liquid light' polaritons — a novel non-von Neumann computing approach with potential for parallel, low-power AI inference. Deep expertise in condensed matter physics, device physics, ultrafast optical systems, sophisticated experimental setups, and hardware-software co-design. Published in Nature Communications and Physical Review Letters. Experienced in building real-time data acquisition systems and integrating novel hardware with software control stacks. Seeking to apply optical computing expertise to next-generation AI accelerator development. Passionate about scientific research, innovation, and the development of future technologies.",
+  "education": [
+    {
+      "degree": "PhD, Physics",
+      "institution": "Skoltech",
+      "period": "2018 – 2022",
+      "location": "Moscow, Russia",
+      "note": "Thesis defence November 2022"
+    },
+    {
+      "degree": "MS, Physics / Astrophysics",
+      "institution": "Lomonosov MSU",
+      "period": "Grad. June 2018",
+      "location": "Moscow, Russia",
+      "note": ""
+    },
+    {
+      "degree": "Research Internship",
+      "institution": "Tohoku University",
+      "period": "Jul – Aug 2016",
+      "location": "Sendai, Japan",
+      "note": ""
+    }
+  ],
+  "recognition": [
+    {
+      "title": "Principal Investigator, Russian Science Foundation Grant ($40K)",
+      "year": "2025",
+      "url": "https://rscf.ru/project/d44Nt26ZVloTPlay7fQijfAplB8tuYGLfCcuSdgW7ReO9TviG6iL9HUhLb5R3naFmIfNrzzMNDU~/"
+    },
+    {
+      "title": "Co-Investigator, Russian Science Foundation Grant ($300K)",
+      "year": "2023–2026",
+      "url": "https://rscf.ru/project/23-72-00059/"
+    },
+    {
+      "title": "\"Young Scientist\" Award, Sintez",
+      "year": "2021",
+      "url": "https://komissarov-foundation.ru/students/putincev-anton/"
+    },
+    {
+      "title": "Invited Speaker, Global Young Scientists Summit, Singapore",
+      "year": "2020",
+      "url": ""
+    }
+  ],
+  "experience": [
+    {
+      "role": "Senior Research Engineer",
+      "company": "Skoltech",
+      "period": "Dec 2024 – Present",
+      "location": "Moscow, Russia",
+      "bullets": [
+        "Secured $340K in grant funding as PI/Co-I for optical computing research.",
+        "Led R&D of optical computing hardware achieving first room-temperature demonstration of cascadable, universal polariton logic gates — enabling all-optical Boolean operations without electronic conversion (Nature Communications, 2024).",
+        "Designed novel neuromorphic device architecture using Bose-Einstein condensates for massively parallel optical processing with sub-nanosecond switching speeds.",
+        "Developed programmable spatial control system for optical computing elements using SLMs and real-time feedback, enabling reconfigurable architectures (Phys. Rev. Lett., 2023).",
+        "Built end-to-end hardware-software stack: optical setup → real-time acquisition (100+ GB/day) → automated analysis pipeline, reducing experiment iteration cycles by 5×."
+      ]
+    },
+    {
+      "role": "Research Scientist",
+      "company": "Skoltech",
+      "period": "Nov 2022 – Dec 2024",
+      "location": "Moscow, Russia",
+      "bullets": [
+        "Demonstrated first nanosecond-scale optical switching in organic polariton devices — 1000× faster than previous organic systems, enabling viable clock speeds for optical computing (Appl. Phys. Lett., 2020 — Editor's Choice).",
+        "Developed computational models for coherent light-matter interactions, validated against experimental data for predictive device design.",
+        "Built automated optical characterization systems integrating ultrafast lasers, spatial light modulators, and high-speed detectors with software control.",
+        "Investigated novel material systems (organic semiconductors, perovskites) for room-temperature optical computing applications.",
+        "Collaborated with device fabrication teams to optimize microcavity structures for strongly interacting light-matter systems."
+      ]
+    },
+    {
+      "role": "PhD Researcher",
+      "company": "Skoltech",
+      "period": "Nov 2018 – Dec 2022",
+      "location": "Moscow, Russia",
+      "bullets": []
+    },
+    {
+      "role": "Bachelor/Master Student",
+      "company": "Lomonosov Moscow State University",
+      "period": "Nov 2012 – Dec 2018",
+      "location": "Moscow, Russia",
+      "bullets": []
+    }
+  ],
+  "publications": [
+    {
+      "authors": "D. Sannikov, A. V. Baranikov, A. D. Putintsev, M. Misko, A. V. Zasedatelev, U. Scherf, P. G. Lagoudakis",
+      "title": "Room temperature, cascadable, all-optical polariton universal gates",
+      "corresponding": false,
+      "journal": "Nature Communications",
+      "ref": "15, 5362",
+      "year": "2024",
+      "doi": "https://doi.org/10.1038/s41467-024-49690-3",
+      "pdf": "https://doi.org/10.1038/s41467-024-49690-3",
+      "badges": [
+        "Nature Group"
+      ],
+      "layman": "Imagine a calculator that runs on light instead of electricity — no wires, no heat buildup, just photons doing the math. We built the first working prototype of its core building block: a logic gate made from polaritons (quasiparticles that are half light, half matter). Crucially, we showed it is \"cascadable\" — the output of one gate can directly drive the next — which means you can chain them into real circuits. This is the optical computing equivalent of the first transistor, and it works at room temperature.",
+      "image": "assets/NatComm2.png",
+      "altmetric": {
+        "url": "{https://nature.altmetric.com/details/164838113",
+        "label": "PRL"
+      }
+    },
+    {
+      "authors": "A. D. Putintsev*, K. E. McGhee, D. A. Sannikov, A. V. Zasedatelev, J. D. Töpfer, T. Jessewitsch, U. Scherf, D. G. Lidzey, P. G. Lagoudakis",
+      "title": "Controlling the spatial profile and energy landscape of organic polariton condensates in double-dye cavities",
+      "corresponding": true,
+      "journal": "Phys. Rev. Lett.",
+      "ref": "131, 186902",
+      "year": "2023",
+      "doi": "https://doi.org/10.1103/PhysRevLett.131.186902",
+      "pdf": "https://arxiv.org/abs/2304.03617",
+      "badges": [
+        "Editor's Suggestion"
+      ],
+      "layman": "To build optical circuits, you need to control where the light concentrates — just like you need to wire up transistors in the right layout on a chip. We showed that by mixing two different dyes inside a tiny optical cavity, you can sculpt the shape and energy landscape of a polariton condensate on demand. Think of it as being able to draw a circuit with light, rather than etching one in silicon.",
+      "image": "assets/PRLdd.png",
+      "altmetric": {
+        "url": "https://aps.altmetric.com/details/155900173",
+        "label": "PRL"
+      }
+    },
+    {
+      "authors": "M. Misko* & A. D. Putintsev*, D. A. Sannikov, A. V. Zasedatelev, U. Scherf, P. G. Lagoudakis",
+      "title": "Temporal bandwidth of consecutive polariton condensation",
+      "corresponding": true,
+      "journal": "Phys. Rev. B",
+      "ref": "111, L161403",
+      "year": "2025",
+      "doi": "https://doi.org/10.1103/PhysRevB.111.L161403",
+      "pdf": "https://arxiv.org/abs/2407.21544",
+      "badges": [
+        "Letter"
+      ],
+      "layman": "Using a pump-pump optical configuration, researchers establish the intrinsic repetition rate limit of consecutive polariton condensates in an organic microcavity at room temperature. Residual polariton population from the first pulse seeds stimulated relaxation for the second, setting a lower bound on temporal separation for independent logic state operation. This behavior is governed by momentum-dependent bimolecular quenching between propagating polaritons and localized Frenkel excitons — a k-linear nonradiative loss channel captured by a Lindblad-based microscopic model — yielding an operational bandwidth of ~240 GHz, with cavity optimization simulations suggesting extension toward 0.5 THz.",
+      "image": "assets/PRBrr_v2.png",
+      "altmetric": {
+        "url": "https://aps.altmetric.com/details/165845054",
+        "label": "PRB Letter"
+      }
+    },
+    {
+      "authors": "A. D. Putintsev*, A. Zasedatelev, K. E. McGhee, T. Cookson, D. Sannikov, K. Georgiou, D. G. Lidzey, P. G. Lagoudakis",
+      "title": "Nano-second exciton-polariton lasing in organic microcavities",
+      "corresponding": false,
+      "journal": "Appl. Phys. Lett.",
+      "ref": "117, 123302",
+      "year": "2020",
+      "doi": "https://doi.org/10.1063/5.0019195,",
+      "pdf": "https://arxiv.org/abs/2006.11556",
+      "badges": [
+        "Editor's Choice"
+      ],
+      "layman": "Organic polariton condensates are typically limited to ultrashort lifetimes due to the localized nature of Frenkel excitons and rapid cavity decay. Using nanosecond non-resonant optical excitation with single-shot dispersion imaging, researchers demonstrate quasi-steady state polariton lasing in a strongly coupled BODIPY-based organic microcavity at room temperature, with a condensate lifetime exceeding the intrinsic polariton lifetime by four orders of magnitude. All canonical hallmarks of polariton condensation are confirmed, and the quasi-steady state regime is shown to bring organic systems closer to dynamic equilibrium conditions required for polariton hydrodynamics and condensate lattice studies, opening a pathway toward connected polariton devices and all-optical circuitry under ambient conditions.",
+      "image": "assets/APLnanosec.png"
+    },
+    {
+      "authors": "A. D. Putintsev*, A. V. Zasedatelev, V. Shishkov, M. Misko, D. A. Sannikov, E. Andrianov, Y. Lozovik, U. Scherf, P. G. Lagoudakis",
+      "title": "Photon statistics of organic polariton condensates",
+      "corresponding": true,
+      "journal": "Phys. Rev. B",
+      "ref": "110, 045125",
+      "year": "2024",
+      "doi": "https://doi.org/10.1103/PhysRevB.110.045125",
+      "pdf": "https://doi.org/10.1103/PhysRevB.110.045125",
+      "badges": [],
+      "layman": "Using single-shot detection, researchers have measured the second-order coherence function g⁽²⁾(0) of organic polariton condensates at room temperature, finding values as low as 1.00034 ± 10⁻⁵ — intensity fluctuations only ~100 times the shot-noise limit, competitive with results previously achieved only at cryogenic temperatures. Crucially, reducing the condensate size increases quantum noise not due to enhanced spatial disorder, which was found to be size-independent, but due to kinetic losses from polariton outflow at the condensate boundary, suppressing thermalization and broadening the particle-number distribution. This contrasts sharply with conventional laser behavior and highlights the non-equilibrium nature of polariton condensation, while demonstrating its viability as a low-noise platform for room-temperature quantum photonic applications.",
+      "image": "assets/PRBg2.png"
+    },
+    {
+      "authors": "M. D. Kolker, I. I. Krasionov, A. D. Putintsev, E. D. Grayfer, T. Cookson, D. Tatarinov, A. P. Pushkarev, D. A. Sannikov, P. G. Lagoudakis",
+      "title": "Room temperature broadband polariton lasing from a CsPbBr₃ perovskite plate",
+      "corresponding": false,
+      "journal": "Adv. Optical Mater.",
+      "ref": "2402543",
+      "year": "2025",
+      "doi": "https://doi.org/10.1002/adom.202402543",
+      "pdf": "https://doi.org/10.1002/adom.202402543",
+      "badges": [],
+      "layman": "Tunable polariton lasing is demonstrated at room temperature in an all-inorganic CsPbBr₃ perovskite microcavity with an adjustable air-gap, achieving the widest spectral tuning range reported for perovskite polariton lasers to date. The orthorhombic crystal symmetry induces a birefringence-driven mode splitting, enabling simultaneous condensation into two orthogonally polarized polariton branches. The demonstrated in situ tunability and compatibility with electrical injection position this platform as a strong candidate for compact coherent light sources and cascadable polariton logic gates at ambient conditions.",
+      "image": "assets/AOM25v2.png"
+    },
+    {
+      "authors": "K. E. McGhee, A. D. Putintsev, R. Jayaprakash, K. Georgiou, M. E. O'Kane, R. C. Kilbride, E. J. Cassella, M. Cavazzini, D. A. Sannikov, P. G. Lagoudakis, D. G. Lidzey",
+      "title": "Polariton condensation in an organic microcavity utilising a hybrid metal-DBR mirror",
+      "corresponding": false,
+      "journal": "Sci. Rep.",
+      "ref": "11, 20879",
+      "year": "2021",
+      "doi": "https://doi.org/10.1038/s41598-021-00203-y",
+      "pdf": "https://www.researchgate.net/publication/355481147_Polariton_condensation_in_an_organic_microcavity_utilising_a_hybrid_metal-DBR_mirror",
+      "badges": [],
+      "layman": "Plain-language explanation coming soon.",
+      "image": ""
+    }
+  ],
+  "skills": {
+    "Programming": [
+      "Python",
+      "C/C++",
+      "LabVIEW",
+      "MATLAB",
+      "SQL"
+    ],
+    "Hardware": [
+      "Spatial Light Modulators",
+      "Ultrafast Lasers",
+      "Optical Characterization",
+      "Device Fabrication"
+    ],
+    "Systems": [
+      "Real-time Data Acquisition",
+      "Hardware-Software Co-design",
+      "Experiment Automation",
+      "FPGA Interfaces"
+    ],
+    "Analysis": [
+      "Signal Processing",
+      "Image Processing",
+      "Fourier Optics",
+      "Numerical Simulation",
+      "Statistical Modeling"
+    ]
+  },
+  "projects": [
+    {
+      "title": "Example Project",
+      "status": "Active",
+      "description": "Short description of what this project is and what it achieves.",
+      "tags": [
+        "Python",
+        "Optics"
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": ""
+        },
+        {
+          "label": "Paper",
+          "url": ""
+        }
+      ]
+    }
+  ],
+  "media": [
+    {
+      "title": "Universal all-optical logic gate reaches 240 GHz at room temperature",
+      "source": "PhysOrg",
+      "date": "2025",
+      "url": "https://phys.org/news/2025-04-universal-optical-logic-gate-ghz.html",
+      "image": "assets/PRB_image_2.png",
+      "description": "Using a pump-pump optical configuration, researchers establish the intrinsic repetition rate limit of consecutive polariton condensates in an organic microcavity at room temperature. Residual polariton population from the first pulse seeds stimulated relaxation for the second, setting a lower bound on temporal separation for independent logic state operation. This behavior is governed by momentum-dependent bimolecular quenching between propagating polaritons and localized Frenkel excitons — a k-linear nonradiative loss channel captured by a Lindblad-based microscopic model — yielding an operational bandwidth of ~240 GHz, with cavity optimization simulations suggesting extension toward 0.5 THz."
+    },
+    {
+      "title": "A Step Closer to Optical Computers: Skoltech Researchers Developed an All-Optical Universal Gate",
+      "source": "AZO Optics",
+      "date": "2024",
+      "url": "https://www.azooptics.com/News.aspx?newsID=28879",
+      "image": "assets/NatCom2.png",
+      "description": "A research team from Skoltech and Bergische Universität Wuppertal in Germany, have created a universal NOR logical element (from NOT — a negation operator and OR — a disjunction operator). It is based on polariton condensates, operates at room temperature, has multiple inputs, can work hundreds of times faster than electronic analogues, and is also completely optical — that is, it works without electric current. Importantly, such logic elements can be reproduced and connected on a circuit, that is, cascaded. The research results are presented in the Nature Communications journal."
+    },
+    {
+      "title": "Future of high-speed unconventional computing nears as scientists manipulate quantum fluids of light",
+      "source": "Skoletch",
+      "date": "2023",
+      "url": "https://www.skoltech.ru/en/news/future-high-speed-unconventional-computing-nears-scientists-manipulate-quantum-fluids-light",
+      "image": "assets/bw_image_2.png",
+      "description": "With this development, scientists now have the power to design all-optical polariton logic devices that harness the benefits of ultrafast microcavity refractive index modulation as another independent, real-time tuning parameter. It also enables the integration of such weakly coupled absorbers in microcavities of a lateral design that have been recently proposed to bring polariton platforms into the plane of a photonic chip circuitry domain."
+    },
+    {
+      "title": "Young Scientist Award — Komissarov Foundation 'Sintez'",
+      "source": "Komissarov Foundation 'Sintez'",
+      "date": "2023",
+      "url": "https://komissarov-foundation.ru/students/putincev-anton/",
+      "image": "",
+      "description": "This research, recognized by the Komissarov Foundation 'Sintex' Young Scientist award, focuses on organic hybrid microcavities as a promising platform for next-generation optical computing. Unlike inorganic microcavities — which require extreme cooling down to 4K — organic microcavities can operate at room temperature, making them far more practical for real-world applications. The study aims to improve the stability, nonlinearity, and photobleaching resistance of these structures, while taking advantage of their simpler fabrication compared to conventional DBR-DBR designs. A key outcome of the work is a custom experimental setup and LabVIEW-based automation software, built to operate in pulsed reflective mode — enabling continued research into polariton condensates and their potential for solving complex optimization problems that would otherwise demand enormous classical computing power."
+    }
+  ],
+  "media_groups": [
+    {
+      "label": "PRB Letter",
+      "items": [
+        {
+          "title": "Universal all-optical logic gate reaches 240 GHz at room temperature",
+          "source": "Phys.org",
+          "date": "30 Apr 2025",
+          "url": "http://ct.moreover.com/?a=56622560912&p=1pl&v=1&x=Nra9IDotkF-S9dw3PhgEsw"
+        },
+        {
+          "title": "Scientists build ultrafast optical logic gate that works at room temperature",
+          "source": "Knowridge",
+          "date": "04 May 2025",
+          "url": "https://knowridge.com/2025/05/scientists-build-ultrafast-optical-logic-gate-that-works-at-room-temperature/"
+        },
+        {
+          "title": "New milestone in optical computing research: Universal all-optical logic gate reaches 240 GHz",
+          "source": "Scoop",
+          "date": "30 Apr 2025",
+          "url": "https://www.scoop.co.nz/stories/SC2504/S00050/new-milestone-in-optical-computing-research-universal-all-optical-logic-gate-reaches-240-ghz.htm"
+        },
+        {
+          "title": "Оптический логический элемент достиг рекордной скорости 240 гигагерц",
+          "source": "Naked Science",
+          "date": "29 Apr 2025",
+          "url": "https://naked-science.ru/article/column/opticheskij-logicheskij-e"
+        },
+        {
+          "title": "Los científicos rusos y alemanes dispersaron el transistor óptico a 240 GHz",
+          "source": "Espanol.news",
+          "date": "07 May 2025",
+          "url": "http://ct.moreover.com/?a=56675564151&p=1pl&v=1&x=Sz4Rf-KPpRe-0zjAKPX6rA"
+        },
+        {
+          "title": "Российские и немецкие учёные разогнали оптический транзистор до 240 ГГц",
+          "source": "3DNews",
+          "date": "01 May 2025",
+          "url": "http://ct.moreover.com/?a=56632042023&p=1pl&v=1&x=Ni27sh5OosD4vLofrLlK7Q"
+        },
+        {
+          "title": "Componente lógico de luz alcança 240 GHz em temperatura ambiente",
+          "source": "Inovação Tecnológica",
+          "date": "26 May 2025",
+          "url": "http://ct.moreover.com/?a=56832813075&p=1pl&v=1&x=xm76x0wqSo3rxIgYyEMSCQ"
+        }
+      ]
+    },
+    {
+      "label": "Nature Communications",
+      "items": [
+        {
+          "title": "A Step Closer to Optical Computers: Skoltech Researchers Developed an All-Optical Universal Gate",
+          "source": "AZO Optics",
+          "date": "27 Jul 2024",
+          "url": "http://ct.moreover.com/?a=54396778919&p=1pl&v=1&x=MBApN8vkxzNCYo-ii5QRbQ"
+        },
+        {
+          "title": "Dois passos mais perto da computação com luz: Porta lógica e circuito integrado ópticos",
+          "source": "Inovação Tecnológica",
+          "date": "08 Aug 2024",
+          "url": "http://ct.moreover.com/?a=54491907687&p=1pl&v=1&x=55agf5iA81pFvu2n0-miHA"
+        },
+        {
+          "title": "A Step Closer To Optical Computers: Skoltech Researchers Developed An All-Optical Universal Gate",
+          "source": "Scoop",
+          "date": "29 Jul 2024",
+          "url": "https://www.scoop.co.nz/stories/SC2407/S00064/a-step-closer-to-optical-computers-skoltech-researchers-developed-an-all-optical-universal-gate.htm"
+        },
+        {
+          "title": "В Сколтехе создали «вентиль» для оптического компьютера",
+          "source": "Naked Science",
+          "date": "26 Jul 2024",
+          "url": "https://naked-science.ru/article/column/v-skoltehe-sozdali-ventil"
+        },
+        {
+          "title": "«Поляритонный транзистор можно включить одним фотоном»",
+          "source": "N+1",
+          "date": "26 Jul 2024",
+          "url": "https://nplus1.ru/material/2024/07/26/polariton-transistors"
+        }
+      ]
+    },
+    {
+      "label": "PRL",
+      "items": [
+        {
+          "title": "Computação com luz líquida agora a temperatura ambiente",
+          "source": "Inovação Tecnológica",
+          "date": "06 Nov 2023",
+          "url": "https://www.inovacaotecnologica.com.br/noticias/noticia.php?artigo=computacao-luz-liquida-temperatura-ambiente&id=010150231106"
+        },
+        {
+          "title": "Управление квантовым «жидким светом» стало гибче",
+          "source": "Naked Science",
+          "date": "31 Oct 2023",
+          "url": "https://naked-science.ru/article/column/upravlenivym-zhidkim-svet"
+        },
+        {
+          "title": "Controlling the Spatial Profile and Energy Landscape of Organic Polariton Condensates in Double-Dye Cavities",
+          "source": "PRL Editors' Suggestions",
+          "date": "30 Oct 2023",
+          "url": "http://link.aps.org/doi/10.1103/PhysRevLett.131.186902"
+        }
+      ]
+    },
+    {
+      "label": "Adv. Optical Mater.",
+      "items": [
+        {
+          "title": "Researchers explore new basis for integrated all-optical logic",
+          "source": "Phys.org",
+          "date": "30 Jan 2025",
+          "url": "http://ct.moreover.com/?a=55902215816&p=1pl&v=1&x=AsAFKhgStJNkJlDj2z2Y9w"
+        },
+        {
+          "title": "Изучена новая платформа для интегральной полностью оптической логики",
+          "source": "Naked Science",
+          "date": "29 Jan 2025",
+          "url": "https://naked-science.ru/article/column/integralnoj-polnostyu-opt"
+        }
+      ]
+    }
+  ],
+  "contact": {
+    "formspree_endpoint": "https://formspree.io/f/meerzvbn",
+    "email": "putintsev.ad@gmail.com"
+  }
+}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#ffffff"/>
+  <!-- Bold serif A with thick/thin contrast -->
+  <path d="
+    M 32 10
+    L 13 50 L 9 50 L 9 53 L 22 53 L 22 50 L 17.5 50
+    L 22.5 38 L 41.5 38 L 46.5 50 L 42 50 L 42 53 L 55 53 L 55 50 L 51 50
+    L 32 10 Z
+    M 24.5 34.5 L 32 15.5 L 39.5 34.5 Z
+  " fill="#1d1d1f" fill-rule="evenodd"/>
+</svg>

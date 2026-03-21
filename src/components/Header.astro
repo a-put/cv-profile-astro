@@ -1,0 +1,89 @@
+---
+interface SocialLink {
+  label: string;
+  href: string | null;
+  light: string;
+  dark: string;
+}
+
+interface Props {
+  name: string;
+  degree: string;
+  title: string;
+  location?: string;
+  languages?: string;
+  avatar?: string;
+  cvLink?: string;
+  taglines?: string[];
+  linkedin?: string;
+  facebook?: string;
+  telegram?: string;
+  email?: string;
+}
+
+const {
+  name, degree, title, location, languages,
+  avatar, cvLink, taglines,
+  linkedin, facebook, telegram, email
+} = Astro.props;
+
+const meta = [location, languages].filter(Boolean).join('  ·  ');
+
+const socialLinks: SocialLink[] = [
+  { label: 'LinkedIn', href: linkedin || null, light: '/linkedin.png', dark: '/linkedin_bw.png' },
+  { label: 'Facebook', href: facebook || null, light: '/facebook.png', dark: '/facebook_bw.png' },
+  { label: 'Telegram', href: telegram || null, light: '/telegram.png', dark: '/telegram_bw.png' },
+  { label: 'Email', href: email ? `mailto:${email}` : null, light: '/mail.png', dark: '/mail_bw.png' },
+].filter(l => l.href);
+
+const taglineData = taglines && taglines.length ? JSON.stringify(taglines) : null;
+---
+
+<header class="py-10 px-6">
+  <canvas id="header-canvas" aria-hidden="true"></canvas>
+  <div style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;" class="flex items-center gap-6">
+    <div id="avatar-frame" class="flex-shrink-0">
+      <img id="avatar" src={avatar ? `/${avatar}` : '/assets/avatar.jpg'} alt="Profile photo" class="object-cover" />
+    </div>
+    <div>
+      <h1 id="header-name" class="font-bold" style="letter-spacing: -0.03em; color: var(--text-primary);">
+        {name}, {degree}
+      </h1>
+      <p id="header-title" class="mt-1 text-sm" style="color: var(--text-secondary);"
+         data-taglines={taglineData}>
+        {taglines && taglines.length ? taglines[0] : title}
+      </p>
+      {meta && (
+        <p id="header-meta" class="mt-0.5 text-sm" style="color: var(--text-tertiary);">{meta}</p>
+      )}
+      <div id="header-links" class="flex flex-wrap gap-3 mt-3">
+        {socialLinks.map(link => (
+          <a
+            href={link.href!}
+            target={link.href!.startsWith('mailto:') ? undefined : '_blank'}
+            rel={link.href!.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+            class="social-icon-btn"
+            title={link.label}
+            aria-label={link.label}
+          >
+            {/* Light icon — visible in light mode, hidden in dark */}
+            <img class="icon-light" src={link.light} alt={link.label} />
+            {/* Dark icon — hidden in light mode, visible in dark */}
+            <img class="icon-dark" src={link.dark} alt={link.label} />
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  {cvLink && (
+    <a href={`/${cvLink}`} download target="_blank" rel="noopener noreferrer"
+       class="cv-download-btn" aria-label="Download CV" title="Download CV">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 2v9m0 0l-3-3m3 3l3-3"/>
+        <path d="M2 12v1.5a1 1 0 001 1h10a1 1 0 001-1V12"/>
+      </svg>
+      <span>CV</span>
+    </a>
+  )}
+</header>

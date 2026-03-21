@@ -1,0 +1,41 @@
+---
+interface Props {
+  endpoint?: string;
+}
+
+const { endpoint } = Astro.props;
+---
+
+<section id="tab-contact" class="tab-section hidden">
+  <h2 class="section-title">Contact</h2>
+  <p class="text-sm mb-6" style="color: var(--text-secondary);">Drop me a message and I'll get back to you.</p>
+
+  <form id="contact-form" class="flex flex-col gap-4" style="max-width: 480px;" data-endpoint={endpoint}>
+    <!-- Honeypot -->
+    <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off" />
+    <div>
+      <label class="form-label" for="f-name">Name</label>
+      <input id="f-name" name="name" type="text" required class="form-input" autocomplete="name" />
+    </div>
+    <div>
+      <label class="form-label" for="f-email">Email</label>
+      <input id="f-email" name="email" type="email" required class="form-input" autocomplete="email" />
+    </div>
+    <div>
+      <label class="form-label" for="f-message">Message</label>
+      <textarea id="f-message" name="message" rows="5" required class="form-input" style="resize: vertical;"></textarea>
+    </div>
+    <div>
+      <button type="submit" class="submit-btn" id="submit-btn">Send Message</button>
+    </div>
+    <p id="form-status" class="text-sm hidden"></p>
+  </form>
+
+  <div id="form-success" class="hidden" style="display:none; flex-direction:column; align-items:center; justify-content:center; padding: 3rem 0; gap: 1rem;">
+    <svg viewBox="0 0 80 80" style="width:80px;height:80px;" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="40" r="36" stroke="var(--border)" stroke-width="3"/>
+      <path d="M24 41l11 11 21-22" stroke="var(--text-tertiary)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p style="color: var(--text-tertiary); font-size: 0.9rem;">Message sent</p>
+  </div>
+</section>

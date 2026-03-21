@@ -1,0 +1,93 @@
+---
+import TimelineItem from '../cards/TimelineItem.astro';
+
+interface Props {
+  experience?: Array<{ role: string; company: string; location: string; period: string }>;
+  education?: Array<{ degree: string; institution: string; location: string; period: string }>;
+  recognition?: Array<{ title: string; year: string; url?: string }>;
+  publications?: Array<{ title: string; journal: string; ref: string; year: string }>;
+}
+
+const { experience = [], education = [], recognition = [], publications = [] } = Astro.props;
+
+// Build timeline events (same logic as main.js)
+function firstYear(str: string): number | null {
+  const m = String(str).match(/\d{4}/g);
+  return m ? parseInt(m[0], 10) : null;
+}
+function lastYear(str: string): number | null {
+  const m = String(str).match(/\d{4}/g);
+  return m ? parseInt(m[m.length - 1], 10) : null;
+}
+
+interface TimelineEvent {
+  type: string;
+  year: number;
+  title: string;
+  subtitle: string | null;
+  period: string | null;
+  url?: string | null;
+}
+
+const events: TimelineEvent[] = [];
+
+experience.forEach(job => {
+  const year = firstYear(job.period);
+  if (year) events.push({
+    type: 'work', year, title: job.role,
+    subtitle: `${job.company} · ${job.location}`, period: job.period
+  });
+});
+
+education.forEach(item => {
+  const year = lastYear(item.period);
+  if (year) events.push({
+    type: 'education', year, title: item.degree,
+    subtitle: `${item.institution} · ${item.location}`, period: item.period
+  });
+});
+
+recognition.forEach(item => {
+  const year = firstYear(item.year);
+  if (year) events.push({
+    type: 'award', year, title: item.title,
+    subtitle: null, period: String(item.year), url: item.url || null
+  });
+});
+
+publications.forEach(pub => {
+  const year = parseInt(pub.year, 10);
+  if (year) events.push({
+    type: 'publication', year, title: pub.title,
+    subtitle: `${pub.journal} · ${pub.ref}`, period: null
+  });
+});
+
+events.sort((a, b) => b.year - a.year);
+
+// Group events by year for rendering year labels
+let lastYearSeen: number | null = null;
+const renderItems: Array<{ showYear: boolean; year: number; event: TimelineEvent }> = [];
+events.forEach(ev => {
+  renderItems.push({ showYear: ev.year !== lastYearSeen, year: ev.year, event: ev });
+  lastYearSeen = ev.year;
+});
+---
+
+<section id="tab-timeline" class="tab-section hidden">
+  <h2 class="section-title">Research Timeline</h2>
+  <div class="timeline">
+    {renderItems.map(({ showYear, year, event }) => (
+      <>
+        {showYear && <div class="tl-year">{year}</div>}
+        <TimelineItem
+          type={event.type}
+          title={event.title}
+          subtitle={event.subtitle}
+          period={event.period}
+          url={event.url}
+        />
+      </>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+interface Props {
+  degree: string;
+  institution: string;
+  period: string;
+  location: string;
+  note?: string;
+}
+
+const { degree, institution, period, location, note } = Astro.props;
+---
+
+<div class="edu-card">
+  <div>
+    <div class="edu-degree">{degree}</div>
+    <div class="edu-institution">{institution}{note ? ` · ${note}` : ''}</div>
+  </div>
+  <div class="edu-right">
+    <div class="edu-period">{period}</div>
+    <div class="edu-location">{location}</div>
+  </div>
+</div>

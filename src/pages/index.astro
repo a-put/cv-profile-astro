@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import PubModal from '../components/PubModal.astro';
+import AvatarLightbox from '../components/AvatarLightbox.astro';
+
+import About from '../components/sections/About.astro';
+import Experience from '../components/sections/Experience.astro';
+import Publications from '../components/sections/Publications.astro';
+import Skills from '../components/sections/Skills.astro';
+import Timeline from '../components/sections/Timeline.astro';
+import Media from '../components/sections/Media.astro';
+import Contact from '../components/sections/Contact.astro';
+
+import data from '../data/data.json';
+
+const title = `${data.name}, ${data.degree}`;
+---
+
+<BaseLayout title={title}>
+
+  <Header
+    name={data.name}
+    degree={data.degree}
+    title={data.title}
+    location={data.location}
+    languages={data.languages}
+    avatar={data.avatar}
+    cvLink={data.cvLink}
+    taglines={data.taglines}
+    linkedin={data.linkedin}
+    facebook={data.facebook}
+    telegram={data.telegram}
+    email={data.email}
+  />
+
+  <div class="page-layout">
+    <nav class="sidebar">
+      <button class="tab-btn active" data-tab="about">About</button>
+      <button class="tab-btn" data-tab="experience">Experience</button>
+      <button class="tab-btn" data-tab="publications">Publications</button>
+      <button class="tab-btn" data-tab="skills">Skills</button>
+      <button class="tab-btn" data-tab="timeline">Timeline</button>
+      <button class="tab-btn" data-tab="media">Media</button>
+      <button class="tab-btn" data-tab="contact">Contact</button>
+    </nav>
+
+    <main>
+      <About
+        about={data.about}
+        education={data.education}
+        explainer={data.explainer}
+      />
+      <Experience experience={data.experience} />
+      <Publications
+        publications={data.publications}
+        orcid={data.orcid}
+        googleScholar={data.googleScholar}
+      />
+      <Skills
+        skills={data.skills}
+        skillConnections={data.skillConnections}
+      />
+      <Timeline
+        experience={data.experience}
+        education={data.education}
+        recognition={data.recognition}
+        publications={data.publications}
+      />
+      <Media
+        media={data.media}
+        media_groups={data.media_groups}
+      />
+      <Contact endpoint={data.contact?.formspree_endpoint} />
+    </main>
+  </div>
+
+  <Footer name={data.name} />
+  <PubModal />
+  <AvatarLightbox avatar={data.avatar} />
+  <ThemeToggle />
+
+  <!-- Client-side scripts (bundled & deferred by Astro) -->
+  <script>
+    import '../scripts/tabs';
+    import '../scripts/pub-modal';
+    import '../scripts/avatar-lightbox';
+    import '../scripts/contact-form';
+    import '../scripts/tagline-typewriter';
+    import '../scripts/header-particles';
+    import '../scripts/skills-graph';
+  </script>
+</BaseLayout>
