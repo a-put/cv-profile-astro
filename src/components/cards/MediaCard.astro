@@ -9,13 +9,14 @@ interface Props {
 }
 
 const { title, source, date, url, image, description } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const meta = [source, date].filter(Boolean).join(' · ');
 ---
 
 <a class="media-card" href={url || '#'} target={url ? '_blank' : undefined} rel={url ? 'noopener noreferrer' : undefined}>
   {image && (
     <div class="media-img-wrap">
-      <img src={`/${image}`} alt={title} loading="lazy" />
+      <img src={`${base}/${image}`} alt={title} loading="lazy" />
     </div>
   )}
   <div class="media-body">

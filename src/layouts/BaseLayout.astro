@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <!DOCTYPE html>
@@ -16,8 +17,8 @@ const { title } = Astro.props;
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>{title}</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+  <link rel="apple-touch-icon" href={`${base}/apple-touch-icon.png`} />
   <!-- Anti-flash + standalone detect: must run before first paint -->
   <script is:inline>
     (function () {
@@ -30,7 +31,7 @@ const { title } = Astro.props;
       }
     }());
   </script>
-  <link rel="preload" href="/assets/avatar.jpg" as="image" />
+  <link rel="preload" href={`${base}/assets/avatar.jpg`} as="image" />
 </head>
 <body>
   <slot />

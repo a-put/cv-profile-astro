@@ -27,13 +27,14 @@ const {
   linkedin, facebook, telegram, email
 } = Astro.props;
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const meta = [location, languages].filter(Boolean).join('  ·  ');
 
 const socialLinks: SocialLink[] = [
-  { label: 'LinkedIn', href: linkedin || null, light: '/linkedin.png', dark: '/linkedin_bw.png' },
-  { label: 'Facebook', href: facebook || null, light: '/facebook.png', dark: '/facebook_bw.png' },
-  { label: 'Telegram', href: telegram || null, light: '/telegram.png', dark: '/telegram_bw.png' },
-  { label: 'Email', href: email ? `mailto:${email}` : null, light: '/mail.png', dark: '/mail_bw.png' },
+  { label: 'LinkedIn', href: linkedin || null, light: `${base}/linkedin.png`, dark: `${base}/linkedin_bw.png` },
+  { label: 'Facebook', href: facebook || null, light: `${base}/facebook.png`, dark: `${base}/facebook_bw.png` },
+  { label: 'Telegram', href: telegram || null, light: `${base}/telegram.png`, dark: `${base}/telegram_bw.png` },
+  { label: 'Email', href: email ? `mailto:${email}` : null, light: `${base}/mail.png`, dark: `${base}/mail_bw.png` },
 ].filter(l => l.href);
 
 const taglineData = taglines && taglines.length ? JSON.stringify(taglines) : null;
@@ -43,7 +44,7 @@ const taglineData = taglines && taglines.length ? JSON.stringify(taglines) : nul
   <canvas id="header-canvas" aria-hidden="true"></canvas>
   <div style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;" class="flex items-center gap-6">
     <div id="avatar-frame" class="flex-shrink-0">
-      <img id="avatar" src={avatar ? `/${avatar}` : '/assets/avatar.jpg'} alt="Profile photo" class="object-cover" />
+      <img id="avatar" src={avatar ? `${base}/${avatar}` : `${base}/assets/avatar.jpg`} alt="Profile photo" class="object-cover" />
     </div>
     <div>
       <h1 id="header-name" class="font-bold" style="letter-spacing: -0.03em; color: var(--text-primary);">
@@ -77,7 +78,7 @@ const taglineData = taglines && taglines.length ? JSON.stringify(taglines) : nul
   </div>
 
   {cvLink && (
-    <a href={`/${cvLink}`} download target="_blank" rel="noopener noreferrer"
+    <a href={`${base}/${cvLink}`} download target="_blank" rel="noopener noreferrer"
        class="cv-download-btn" aria-label="Download CV" title="Download CV">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M8 2v9m0 0l-3-3m3 3l3-3"/>

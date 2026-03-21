@@ -20,6 +20,7 @@ interface Props {
 }
 
 const { publications, orcid, googleScholar } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <section id="tab-publications" class="tab-section hidden">
@@ -28,12 +29,12 @@ const { publications, orcid, googleScholar } = Astro.props;
   <div class="flex flex-wrap gap-3 mb-5">
     {orcid && (
       <a href={orcid} target="_blank" rel="noopener noreferrer" class="pub-profile-btn">
-        <img src="/orcid.png" alt="ORCID" /><span>ORCID</span>
+        <img src={`${base}/orcid.png`} alt="ORCID" /><span>ORCID</span>
       </a>
     )}
     {googleScholar && (
       <a href={googleScholar} target="_blank" rel="noopener noreferrer" class="pub-profile-btn">
-        <img src="/GoogleScholar.png" alt="Google Scholar" /><span>Google Scholar</span>
+        <img src={`${base}/GoogleScholar.png`} alt="Google Scholar" /><span>Google Scholar</span>
       </a>
     )}
   </div>
