@@ -55,14 +55,14 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 1);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
 }
 
 html[data-theme="dark"] header {
-  background: rgba(28, 28, 30, 0.88);
+  background: rgba(28, 28, 30, 1);
 }
 
 /* ── Header — particle canvas ───────────────────────────── */
