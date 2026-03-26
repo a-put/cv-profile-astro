@@ -19,7 +19,7 @@ import data from '../data/data.json';
 const title = `${data.name}, ${data.degree}`;
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} description={data.description}>
 
   <Header
     name={data.name}
