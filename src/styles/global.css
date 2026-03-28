@@ -578,20 +578,20 @@ html[data-theme="dark"] .badge-gold {
   gap: 5px;
   padding: 5px 12px 5px 9px;
   border-radius: 980px;
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
+  background: linear-gradient(135deg, #ff6b00, #ff8c00, #ff4500);
+  box-shadow: 0 2px 8px rgba(255, 107, 0, 0.3);
   text-decoration: none;
   font-size: 0.82rem;
   font-family: var(--font);
   font-weight: 500;
-  color: var(--text-secondary);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease, background-color 0.25s ease, border-color 0.25s ease;
+  color: #ffffff;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease, background 0.25s ease;
 }
 
 .cv-download-btn:hover {
   transform: scale(1.06);
-  box-shadow: var(--shadow-md);
-  color: var(--accent);
+  box-shadow: 0 4px 14px rgba(255, 107, 0, 0.45);
+  color: #ffffff;
 }
 
 .cv-download-btn svg {
@@ -658,21 +658,23 @@ html[data-theme="dark"] .social-icon-btn .icon-light { display: none; }
 }
 
 .submit-btn {
-  background: #3a3a3c;
-  color: #e5e5ea;
+  background: linear-gradient(135deg, #ff6b00, #ff8c00, #ff4500);
+  color: #ffffff;
   border: none;
   border-radius: 980px;
   padding: 0.65rem 1.6rem;
   font-family: var(--font);
   font-size: 0.9rem;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 0.01em;
   cursor: pointer;
-  transition: opacity 0.2s, background-color 0.25s ease, color 0.15s ease;
+  box-shadow: 0 2px 8px rgba(255, 107, 0, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.25s ease;
 }
 
 .submit-btn:hover {
-  opacity: 0.75;
+  transform: scale(1.04);
+  box-shadow: 0 4px 14px rgba(255, 107, 0, 0.45);
 }
 
 /* ── Explainer card ──────────────────────────────────────── */
