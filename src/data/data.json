@@ -244,11 +244,23 @@
       "FPGA Interfaces"
     ],
     "Analysis": [
+      "Physics",
+      "Math",
+      "Algorithms",
+      "Statistics",
       "Signal Processing",
       "Image Processing",
       "Fourier Optics",
       "Numerical Simulation",
-      "Statistical Modeling"
+      "Statistical Modeling",
+      "Quantum measurements"
+    ],
+    "General": [
+      "Comunications",
+      "negotiations",
+      "Critical thinking",
+      "Innovation",
+      "Problem solving"
     ]
   },
   "projects": [

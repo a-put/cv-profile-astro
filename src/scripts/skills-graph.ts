@@ -11,11 +11,23 @@ const SKILLS_GRAPH_MODE = 2;
 
 // ── Shared: build skill nodes, edges, adjacency ─────────────
 function buildSkillGraph(data: any) {
-  const groupColors = {
+  // Base palette — extended automatically for any number of groups
+  const basePalette = {
     light: ['#0071e3', '#bf4800', '#1a8a3f', '#7b3fa0'],
     dark: ['#0a84ff', '#ff9f0a', '#30d158', '#bf5af2']
   };
   const groups = Object.entries(data.skills) as [string, string[]][];
+  // Generate evenly-spaced HSL colors for groups beyond the base palette
+  function generateColor(index: number, dark: boolean): string {
+    const hue = (index * 137.5) % 360; // golden angle for good spread
+    return dark
+      ? `hsl(${hue}, 80%, 60%)`
+      : `hsl(${hue}, 70%, 40%)`;
+  }
+  const groupColors = {
+    light: groups.map((_, i) => basePalette.light[i] ?? generateColor(i, false)),
+    dark: groups.map((_, i) => basePalette.dark[i] ?? generateColor(i, true))
+  };
   const nodes: any[] = [];
   const nameIdx: Record<string, number> = {};
   groups.forEach(([group, items], gi) => {
