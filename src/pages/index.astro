@@ -44,7 +44,7 @@ const title = `${data.name}, ${data.degree}`;
       <button class="tab-btn" data-tab="experience">Experience</button>
       <button class="tab-btn" data-tab="publications">Publications</button>
       <button class="tab-btn" data-tab="skills">Skills</button>
-      <button class="tab-btn" data-tab="timeline">Timeline</button>
+      {data.showTimeline && <button class="tab-btn" data-tab="timeline">Timeline</button>}
       <button class="tab-btn" data-tab="media">Media</button>
       <button class="tab-btn" data-tab="contact">Contact</button>
     </nav>
@@ -68,12 +68,12 @@ const title = `${data.name}, ${data.degree}`;
         skills={data.skills}
         skillConnections={data.skillConnections}
       />
-      <Timeline
+      {data.showTimeline && <Timeline
         experience={data.experience}
         education={data.education}
         recognition={data.recognition}
         publications={data.publications}
-      />
+      />}
       <Media
         media={data.media}
         media_groups={data.media_groups}

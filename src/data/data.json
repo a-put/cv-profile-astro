@@ -1,7 +1,8 @@
 {
   "showAvailability": false,
   "showProjects": false,
-  "avatar": "assets/avatar.jpg",
+  "showTimeline": false,
+  "avatar": "assets/profile-photo0.jpg",
   "headerBg": null,
   "explainer": {},
   "name": "Anton Putintsev",
