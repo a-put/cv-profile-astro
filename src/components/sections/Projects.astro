@@ -1,0 +1,75 @@
+---
+interface Project {
+  title: string;
+  subtitle?: string;
+  status?: string;
+  problem: string;
+  approach: string;
+  result: string;
+  implications: string;
+  tags?: string[];
+  image?: string;
+  links?: Array<{ label: string; url: string }>;
+}
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const sections = [
+  { key: 'problem', label: 'Problem' },
+  { key: 'approach', label: 'Approach' },
+  { key: 'result', label: 'Result' },
+  { key: 'implications', label: 'Implications for AI Hardware' },
+] as const;
+---
+
+<section id="tab-projects" class="tab-section hidden">
+  <h2 class="section-title">Projects</h2>
+
+  {projects.map(project => (
+    <div class="project-card">
+      <div class="project-header">
+        <h3 class="project-title">{project.title}</h3>
+        {project.subtitle && <p class="project-subtitle">{project.subtitle}</p>}
+        {project.status && <span class="project-status">{project.status}</span>}
+      </div>
+
+      {project.image && (
+        <div class="project-image">
+          <img src={`${base}/${project.image}`} alt={project.title} loading="lazy" />
+        </div>
+      )}
+
+      <div class="project-sections">
+        {sections.map(s => (
+          <div class="project-section">
+            <div class="project-section-label">{s.label}</div>
+            <p class="project-section-text">{project[s.key]}</p>
+          </div>
+        ))}
+      </div>
+
+      {project.tags && project.tags.length > 0 && (
+        <div class="project-tags">
+          {project.tags.map(tag => (
+            <span class="skill-tag">{tag}</span>
+          ))}
+        </div>
+      )}
+
+      {project.links && project.links.length > 0 && (
+        <div class="project-links">
+          {project.links.filter(l => l.url).map(link => (
+            <a href={link.url} target="_blank" rel="noopener noreferrer" class="project-link">
+              {link.label} <span class="media-arrow">↗</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  ))}
+</section>

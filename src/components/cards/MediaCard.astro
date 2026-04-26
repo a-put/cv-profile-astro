@@ -14,9 +14,13 @@ const meta = [source, date].filter(Boolean).join(' · ');
 ---
 
 <a class="media-card" href={url || '#'} target={url ? '_blank' : undefined} rel={url ? 'noopener noreferrer' : undefined}>
-  {image && (
+  {image ? (
     <div class="media-img-wrap">
       <img src={`${base}/${image}`} alt={title} loading="lazy" />
+    </div>
+  ) : (
+    <div class="media-img-wrap media-img-placeholder">
+      <span class="media-placeholder-source">{source || ''}</span>
     </div>
   )}
   <div class="media-body">

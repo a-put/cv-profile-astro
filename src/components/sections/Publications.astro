@@ -1,25 +1,30 @@
 ---
 import PublicationCard from '../cards/PublicationCard.astro';
 
+interface Pub {
+  authors: string;
+  title: string;
+  corresponding: boolean;
+  journal: string;
+  ref: string;
+  year: string;
+  doi?: string;
+  pdf?: string;
+  badges: string[];
+  layman?: string;
+  image?: string;
+  featured?: boolean;
+}
+
 interface Props {
-  publications: Array<{
-    authors: string;
-    title: string;
-    corresponding: boolean;
-    journal: string;
-    ref: string;
-    year: string;
-    doi?: string;
-    pdf?: string;
-    badges: string[];
-    layman?: string;
-    image?: string;
-  }>;
+  publications: Pub[];
   orcid?: string;
   googleScholar?: string;
 }
 
 const { publications, orcid, googleScholar } = Astro.props;
+const featured = publications.filter(p => p.featured);
+const other = publications.filter(p => !p.featured);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
@@ -43,21 +48,50 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     * co-first author &nbsp;·&nbsp; <sup>†</sup> corresponding author
   </p>
 
-  <div class="flex flex-col gap-3">
-    {publications.map(pub => (
-      <PublicationCard
-        authors={pub.authors}
-        title={pub.title}
-        corresponding={pub.corresponding}
-        journal={pub.journal}
-        ref={pub.ref}
-        year={pub.year}
-        doi={pub.doi}
-        pdf={pub.pdf}
-        badges={pub.badges}
-        layman={pub.layman}
-        image={pub.image}
-      />
-    ))}
-  </div>
+  {featured.length > 0 && (
+    <p class="subsection-label" style="margin-top: 0;">Featured</p>
+    <div class="flex flex-col gap-3">
+      {featured.map(pub => (
+        <PublicationCard
+          authors={pub.authors}
+          title={pub.title}
+          corresponding={pub.corresponding}
+          journal={pub.journal}
+          ref={pub.ref}
+          year={pub.year}
+          doi={pub.doi}
+          pdf={pub.pdf}
+          badges={pub.badges}
+          layman={pub.layman}
+          image={pub.image}
+          featured={true}
+        />
+      ))}
+    </div>
+  )}
+
+  {other.length > 0 && (
+    <details class="pub-other-details">
+      <summary class="pub-other-summary">
+        Show {other.length} more publication{other.length > 1 ? 's' : ''}
+      </summary>
+      <div class="flex flex-col gap-3 mt-3">
+        {other.map(pub => (
+          <PublicationCard
+            authors={pub.authors}
+            title={pub.title}
+            corresponding={pub.corresponding}
+            journal={pub.journal}
+            ref={pub.ref}
+            year={pub.year}
+            doi={pub.doi}
+            pdf={pub.pdf}
+            badges={pub.badges}
+            layman={pub.layman}
+            image={pub.image}
+          />
+        ))}
+      </div>
+    </details>
+  )}
 </section>

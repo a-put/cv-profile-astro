@@ -14,9 +14,23 @@ interface Props {
     headline?: string;
     body?: string;
   };
+  availability?: {
+    status?: string;
+    roles?: string[];
+    locations?: string[];
+    visa?: string;
+    relocation?: string;
+  };
+  recognition?: Array<{
+    title: string;
+    year: string;
+    url?: string;
+    highlight?: boolean;
+  }>;
 }
 
-const { about, education, explainer } = Astro.props;
+const { about, education, explainer, availability, recognition } = Astro.props;
+const highlights = recognition?.filter(r => r.highlight) ?? [];
 
 // Replicate the markdown-bold parsing from main.js
 const aboutHtml = about
@@ -38,6 +52,43 @@ const hasExplainer = explainer && (explainer.headline || explainer.body);
   )}
 
   <p id="about-text" class="text-sm leading-relaxed" style="color: var(--text-secondary); max-width: 60ch;" set:html={aboutHtml} />
+
+  {availability && (
+    <div class="availability-block">
+      <div class="availability-header">
+        <span class="availability-dot"></span>
+        <span class="availability-status">{availability.status}</span>
+      </div>
+      {availability.roles && availability.roles.length > 0 && (
+        <div class="availability-roles">
+          {availability.roles.map(role => (
+            <span class="availability-pill">{role}</span>
+          ))}
+        </div>
+      )}
+      {availability.locations && availability.locations.length > 0 && (
+        <div class="availability-meta">
+          <span class="availability-label">Locations:</span> {availability.locations.join(' · ')}
+        </div>
+      )}
+      {availability.visa && (
+        <div class="availability-meta">
+          <span class="availability-label">Visa:</span> {availability.visa}
+        </div>
+      )}
+    </div>
+  )}
+
+  {highlights.length > 0 && (
+    <div class="highlight-badges">
+      {highlights.map(h => (
+        <span class="highlight-badge">
+          <span class="highlight-badge-icon">&#127942;</span>
+          <span>{h.title} ({h.year})</span>
+        </span>
+      ))}
+    </div>
+  )}
 
   <p class="subsection-label">Education</p>
   <div class="flex flex-col gap-3">

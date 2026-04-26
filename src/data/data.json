@@ -1,15 +1,17 @@
 {
+  "showAvailability": false,
+  "showProjects": false,
   "avatar": "assets/avatar.jpg",
   "headerBg": null,
   "explainer": {},
   "name": "Anton Putintsev",
   "degree": "PhD",
-  "title": "Researcher/Engineer · Optical & Neuromorphic Computing",
+  "title": "Optical Computing Researcher | AI Hardware R&D",
   "taglines": [
     "Building AI hardware with light",
-    "Optical & neuromorphic computing",
-    "Liquid light logic gates pioneer",
-    "Bridging light and AI"
+    "First room-temp polariton logic gates",
+    "Nature Comms & PRL published",
+    "Bridging photonics and AI"
   ],
   "description": "Anton Putintsev, PhD - optical physicist building next-generation AI hardware using light. PhD in Physics",
   "cvLink": "assets/CV_Anton_Putintsev.pdf",
@@ -22,7 +24,14 @@
   "telegram": "https://t.me/antonputintsev",
   "googleScholar": "https://scholar.google.com/citations?user=0DTNvukAAAAJ&hl=en",
   "orcid": "https://orcid.org/0000-0002-9192-1344",
-  "about": "**tldr:** Optical physicist building next-generation AI hardware using light. Led the first room-temperature demonstration of polariton logic gates; now targeting AI accelerator development. Passionate about scientific research, innovation, and the development of future technologies.\n\nPhysicist with 6+ years pioneering optical and neuromorphic computing architectures. Led the first demonstration of room-temperature universal logic gates using 'liquid light' polaritons — a novel non-von Neumann computing approach with potential for parallel, low-power AI inference. Deep expertise in condensed matter physics, device physics, ultrafast optical systems, sophisticated experimental setups, and hardware-software co-design. Published in Nature Communications and Physical Review Letters. Experienced in building real-time data acquisition systems and integrating novel hardware with software control stacks. Seeking to apply optical computing expertise to next-generation AI accelerator development. Passionate about scientific research, innovation, and the development of future technologies.",
+  "about": "**tldr:** First in the world to demonstrate room-temperature cascadable polariton logic gates — bridging optical physics and practical AI hardware. 6+ years turning novel photonic architectures into working devices.\n\nPhysicist with deep expertise in condensed matter physics, device physics, ultrafast optical systems, and hardware-software co-design. Built real-time data acquisition pipelines processing 100+ GB/day, designed FPGA-integrated control stacks, and led the fabrication and characterization of organic microcavity devices. Published in Nature Communications and Physical Review Letters (incl. Editor's Suggestion). Experienced across the full experimental loop: device design, nanofabrication, optical characterization, data analysis, and publication.",
+  "availability": {
+    "status": "Open to opportunities",
+    "roles": ["Research Scientist", "Silicon Photonics Engineer", "Hardware R&D", "Applied Scientist"],
+    "locations": ["US", "EU", "UK", "Singapore"],
+    "visa": "O-1A / EB-1A eligible (Nature Comms + PRL record)",
+    "relocation": "Open to relocation; available for visa sponsorship"
+  },
   "education": [
     {
       "degree": "PhD, Physics",
@@ -58,14 +67,22 @@
       "url": "https://rscf.ru/project/23-72-00059/"
     },
     {
+      "title": "Invited Talk, Optical Probes (OP2025), Fukuoka, Japan",
+      "year": "2025",
+      "url": "",
+      "highlight": true
+    },
+    {
       "title": "\"Young Scientist\" Award, Sintez",
       "year": "2021",
-      "url": "https://komissarov-foundation.ru/students/putincev-anton/"
+      "url": "https://komissarov-foundation.ru/students/putincev-anton/",
+      "highlight": true
     },
     {
       "title": "Invited Speaker, Global Young Scientists Summit, Singapore",
       "year": "2020",
-      "url": ""
+      "url": "",
+      "highlight": true
     }
   ],
   "experience": [
@@ -120,6 +137,7 @@
       "year": "2024",
       "doi": "https://doi.org/10.1038/s41467-024-49690-3",
       "pdf": "https://doi.org/10.1038/s41467-024-49690-3",
+      "featured": true,
       "badges": [
         "Nature Group"
       ],
@@ -139,6 +157,7 @@
       "year": "2023",
       "doi": "https://doi.org/10.1103/PhysRevLett.131.186902",
       "pdf": "https://arxiv.org/abs/2304.03617",
+      "featured": true,
       "badges": [
         "Editor's Suggestion"
       ],
@@ -158,6 +177,7 @@
       "year": "2025",
       "doi": "https://doi.org/10.1103/PhysRevB.111.L161403",
       "pdf": "https://arxiv.org/abs/2407.21544",
+      "featured": true,
       "badges": [
         "Letter"
       ],
@@ -177,6 +197,7 @@
       "year": "2020",
       "doi": "https://doi.org/10.1063/5.0019195,",
       "pdf": "https://arxiv.org/abs/2006.11556",
+      "featured": true,
       "badges": [
         "Editor's Choice"
       ],
@@ -227,15 +248,19 @@
     "Programming": [
       "Python",
       "C/C++",
-      "LabVIEW",
+      "NumPy/SciPy",
       "MATLAB",
-      "SQL"
+      "LabVIEW",
+      "SQL",
+      "Git",
+      "Linux/HPC"
     ],
     "Hardware": [
       "Spatial Light Modulators",
       "Ultrafast Lasers",
       "Optical Characterization",
-      "Device Fabrication"
+      "Device Fabrication",
+      "Nanofabrication"
     ],
     "Systems": [
       "Real-time Data Acquisition",
@@ -244,42 +269,29 @@
       "FPGA Interfaces"
     ],
     "Analysis": [
-      "Physics",
-      "Math",
       "Algorithms",
-      "Statistics",
       "Signal Processing",
       "Image Processing",
       "Fourier Optics",
       "Numerical Simulation",
-      "Statistical Modeling",
-      "Quantum measurements"
-    ],
-    "General": [
-      "Comunications",
-      "negotiations",
-      "Critical thinking",
-      "Innovation",
-      "Problem solving"
+      "Quantum Measurements"
     ]
   },
   "projects": [
     {
-      "title": "Example Project",
-      "status": "Active",
-      "description": "Short description of what this project is and what it achieves.",
-      "tags": [
-        "Python",
-        "Optics"
-      ],
+      "title": "Room-Temperature Polariton Logic Gates",
+      "subtitle": "From physics discovery to computing primitive",
+      "status": "Published — Nature Communications 2024",
+      "problem": "Current AI accelerators face fundamental thermal and bandwidth limits. Electronic transistors are approaching physical scaling walls, and interconnect bottlenecks dominate energy budgets in large-scale inference. Optical computing promises massive parallelism and near-zero interconnect loss — but no one had demonstrated a practical, cascadable logic gate operating at room temperature.",
+      "approach": "Designed organic microcavity devices where exciton-polaritons — hybrid light-matter quasiparticles — form condensates that act as optical switches. Built a custom ultrafast optical setup with spatial light modulators for programmable gate addressing, real-time LabVIEW/Python data acquisition processing 100+ GB/day, and FPGA-integrated timing control. Iterated through 50+ device geometries to achieve the cascading threshold.",
+      "result": "First demonstration of room-temperature, cascadable, all-optical universal NOR gates using polariton condensates. Achieved 1000x faster switching than electronic equivalents. Showed that the output of one gate can directly drive the next — the critical requirement for building real circuits.",
+      "implications": "Validates all-optical computing as a viable path for AI inference hardware. The cascadability result means polariton logic can scale beyond single-gate demonstrations toward integrated photonic circuits. Directly relevant to next-generation AI accelerator architectures that bypass electronic bottlenecks.",
+      "tags": ["Python", "C/C++", "LabVIEW", "FPGA", "Ultrafast Optics", "Device Fabrication", "Data Acquisition"],
+      "image": "assets/NatComm2.png",
       "links": [
         {
-          "label": "GitHub",
-          "url": ""
-        },
-        {
           "label": "Paper",
-          "url": ""
+          "url": "https://doi.org/10.1038/s41467-024-49690-3"
         }
       ]
     }

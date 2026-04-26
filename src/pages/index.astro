@@ -7,6 +7,7 @@ import PubModal from '../components/PubModal.astro';
 import AvatarLightbox from '../components/AvatarLightbox.astro';
 
 import About from '../components/sections/About.astro';
+import Projects from '../components/sections/Projects.astro';
 import Experience from '../components/sections/Experience.astro';
 import Publications from '../components/sections/Publications.astro';
 import Skills from '../components/sections/Skills.astro';
@@ -39,6 +40,7 @@ const title = `${data.name}, ${data.degree}`;
   <div class="page-layout">
     <nav class="sidebar">
       <button class="tab-btn active" data-tab="about">About</button>
+      {data.showProjects && <button class="tab-btn" data-tab="projects">Projects</button>}
       <button class="tab-btn" data-tab="experience">Experience</button>
       <button class="tab-btn" data-tab="publications">Publications</button>
       <button class="tab-btn" data-tab="skills">Skills</button>
@@ -52,7 +54,10 @@ const title = `${data.name}, ${data.degree}`;
         about={data.about}
         education={data.education}
         explainer={data.explainer}
+        availability={data.showAvailability ? data.availability : undefined}
+        recognition={data.recognition}
       />
+      {data.showProjects && <Projects projects={data.projects} />}
       <Experience experience={data.experience} />
       <Publications
         publications={data.publications}
