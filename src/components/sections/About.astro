@@ -1,5 +1,4 @@
 ---
-import EducationCard from '../cards/EducationCard.astro';
 
 interface Props {
   about: string;
@@ -20,16 +19,19 @@ interface Props {
     locations?: string[];
     visa?: string;
     relocation?: string;
+    calendly?: string;
   };
   recognition?: Array<{
     title: string;
+    shortTitle?: string;
     year: string;
     url?: string;
     highlight?: boolean;
   }>;
+  stats?: Array<{ value: string; label: string }>;
 }
 
-const { about, education, explainer, availability, recognition } = Astro.props;
+const { about, education, explainer, availability, recognition, stats } = Astro.props;
 const highlights = recognition?.filter(r => r.highlight) ?? [];
 
 // Replicate the markdown-bold parsing from main.js
@@ -53,6 +55,17 @@ const hasExplainer = explainer && (explainer.headline || explainer.body);
 
   <p id="about-text" class="text-sm leading-relaxed" style="color: var(--text-secondary); max-width: 60ch;" set:html={aboutHtml} />
 
+  {stats && stats.length > 0 && (
+    <div class="stats-row">
+      {stats.map(s => (
+        <div class="stat-item">
+          <div class="stat-value">{s.value}</div>
+          <div class="stat-label">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  )}
+
   {availability && (
     <div class="availability-block">
       <div class="availability-header">
@@ -60,46 +73,46 @@ const hasExplainer = explainer && (explainer.headline || explainer.body);
         <span class="availability-status">{availability.status}</span>
       </div>
       {availability.roles && availability.roles.length > 0 && (
-        <div class="availability-roles">
-          {availability.roles.map(role => (
-            <span class="availability-pill">{role}</span>
-          ))}
+        <div class="availability-meta availability-roles-text">
+          <span class="availability-label">Roles:</span> {availability.roles.join(' · ')}
         </div>
       )}
       {availability.locations && availability.locations.length > 0 && (
-        <div class="availability-meta">
-          <span class="availability-label">Locations:</span> {availability.locations.join(' · ')}
-        </div>
+        <div class="availability-meta">{availability.locations.join(' · ')}</div>
       )}
       {availability.visa && (
-        <div class="availability-meta">
-          <span class="availability-label">Visa:</span> {availability.visa}
-        </div>
+        <div class="availability-meta">{availability.visa}</div>
+      )}
+      {availability.calendly && (
+        <a href={availability.calendly} target="_blank" rel="noopener noreferrer" class="availability-cta">
+          Book a 30-min intro call <span aria-hidden="true">→</span>
+        </a>
       )}
     </div>
   )}
 
   {highlights.length > 0 && (
-    <div class="highlight-badges">
+    <div class="highlight-badges highlight-badges--stacked">
       {highlights.map(h => (
         <span class="highlight-badge">
           <span class="highlight-badge-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H8v2h8v-2h-3v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2ZM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8Zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1Z"/><path d="M12 5.5l1.12 2.27 2.5.36-1.81 1.77.43 2.5L12 11.27 9.76 12.4l.43-2.5-1.81-1.77 2.5-.36L12 5.5Z"/></svg></span>
           <span>{h.title} ({h.year})</span>
         </span>
       ))}
+      <div class="highlight-edu-row">
+        <span class="highlight-badge highlight-badge--edu">
+          <span class="highlight-badge-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm-7 9.18v4L12 20l7-3.82v-4L12 16l-7-3.82Z"/></svg></span>
+          <span>PhD, Skoltech</span>
+        </span>
+        <span class="highlight-badge highlight-badge--edu">
+          <span class="highlight-badge-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm-7 9.18v4L12 20l7-3.82v-4L12 16l-7-3.82Z"/></svg></span>
+          <span>BSc/MSc, MSU</span>
+        </span>
+        <span class="highlight-badge highlight-badge--edu">
+          <span class="highlight-badge-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm-7 9.18v4L12 20l7-3.82v-4L12 16l-7-3.82Z"/></svg></span>
+          <span>Research Intern, Tohoku</span>
+        </span>
+      </div>
     </div>
   )}
-
-  <p class="subsection-label">Education</p>
-  <div class="flex flex-col gap-3">
-    {education.map(item => (
-      <EducationCard
-        degree={item.degree}
-        institution={item.institution}
-        period={item.period}
-        location={item.location}
-        note={item.note}
-      />
-    ))}
-  </div>
 </section>

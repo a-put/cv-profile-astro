@@ -56,6 +56,7 @@ const title = `${data.name}, ${data.degree}`;
         explainer={data.explainer}
         availability={data.showAvailability ? data.availability : undefined}
         recognition={data.recognition}
+        stats={data.stats}
       />
       {data.showProjects && <Projects projects={data.projects} />}
       <Experience experience={data.experience} />

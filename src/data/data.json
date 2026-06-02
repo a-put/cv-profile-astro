@@ -1,5 +1,5 @@
 {
-  "showAvailability": false,
+  "showAvailability": true,
   "showProjects": false,
   "showTimeline": false,
   "avatar": "assets/profile-photo0.jpg",
@@ -28,11 +28,18 @@
   "about": "**tldr:** First in the world to demonstrate room-temperature cascadable polariton logic gates — bridging optical physics and practical AI hardware. 6+ years turning novel photonic architectures into working devices.\n\nPhysicist with deep expertise in condensed matter physics, device physics, ultrafast optical systems, and hardware-software co-design. Built real-time data acquisition pipelines processing 100+ GB/day, designed FPGA-integrated control stacks, and led the fabrication and characterization of organic microcavity devices. Published in Nature Communications and Physical Review Letters (incl. Editor's Suggestion). Experienced across the full experimental loop: device design, nanofabrication, optical characterization, data analysis, and publication.",
   "availability": {
     "status": "Open to opportunities",
-    "roles": ["Research Scientist", "Silicon Photonics Engineer", "Hardware R&D", "Applied Scientist"],
+    "roles": ["Research Scientist", "Silicon Photonics Engineer", "Hardware R&D"],
     "locations": ["US", "EU", "UK", "Singapore"],
-    "visa": "O-1A / EB-1A eligible (Nature Comms + PRL record)",
-    "relocation": "Open to relocation; available for visa sponsorship"
+    "visa": "O-1A / EB-1A eligible",
+    "relocation": "Open to relocation; available for visa sponsorship",
+    "calendly": "https://calendly.com/putintsev-ad/30min"
   },
+  "stats": [
+    { "value": "7", "label": "publications" },
+    { "value": "$340K", "label": "grants secured" },
+    { "value": "3", "label": "invited talks" },
+    { "value": "15+", "label": "media features" }
+  ],
   "education": [
     {
       "degree": "PhD, Physics",
@@ -69,18 +76,21 @@
     },
     {
       "title": "Invited Talk, Optical Probes (OP2025), Fukuoka, Japan",
+      "shortTitle": "Invited Talk · OP2025 Japan",
       "year": "2025",
       "url": "",
       "highlight": true
     },
     {
       "title": "\"Young Scientist\" Award, Sintez",
+      "shortTitle": "Young Scientist Award",
       "year": "2021",
       "url": "https://komissarov-foundation.ru/students/putincev-anton/",
       "highlight": true
     },
     {
       "title": "Invited Speaker, Global Young Scientists Summit, Singapore",
+      "shortTitle": "Invited Speaker · GYSS Singapore",
       "year": "2020",
       "url": "",
       "highlight": true
@@ -118,6 +128,13 @@
       "company": "Skoltech",
       "period": "Nov 2018 – Dec 2022",
       "location": "Moscow, Russia",
+      "bullets": []
+    },
+    {
+      "role": "Visiting Research Intern",
+      "company": "Tohoku University",
+      "period": "Jul – Aug 2016",
+      "location": "Sendai, Japan",
       "bullets": []
     },
     {
