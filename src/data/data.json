@@ -28,17 +28,38 @@
   "about": "**tldr:** First in the world to demonstrate room-temperature cascadable polariton logic gates — bridging optical physics and practical AI hardware. 6+ years turning novel photonic architectures into working devices.\n\nPhysicist with deep expertise in condensed matter physics, device physics, ultrafast optical systems, and hardware-software co-design. Built real-time data acquisition pipelines processing 100+ GB/day, designed FPGA-integrated control stacks, and led the fabrication and characterization of organic microcavity devices. Published in Nature Communications and Physical Review Letters (incl. Editor's Suggestion). Experienced across the full experimental loop: device design, nanofabrication, optical characterization, data analysis, and publication.",
   "availability": {
     "status": "Open to opportunities",
-    "roles": ["Research Scientist", "Silicon Photonics Engineer", "Hardware R&D"],
-    "locations": ["US", "EU", "UK", "Singapore"],
+    "roles": [
+      "Research Scientist",
+      "Silicon Photonics Engineer",
+      "Hardware R&D"
+    ],
+    "locations": [
+      "US",
+      "EU",
+      "UK",
+      "Singapore"
+    ],
     "visa": "O-1A / EB-1A eligible",
     "relocation": "Open to relocation; available for visa sponsorship",
     "calendly": "https://calendly.com/putintsev-ad/30min"
   },
   "stats": [
-    { "value": "7", "label": "publications" },
-    { "value": "$340K", "label": "grants secured" },
-    { "value": "3", "label": "invited talks" },
-    { "value": "15+", "label": "media features" }
+    {
+      "value": "7",
+      "label": "publications"
+    },
+    {
+      "value": "$340K",
+      "label": "grants secured"
+    },
+    {
+      "value": "3",
+      "label": "invited talks"
+    },
+    {
+      "value": "15+",
+      "label": "media features"
+    }
   ],
   "education": [
     {
@@ -105,7 +126,7 @@
       "bullets": [
         "Secured $340K in grant funding as PI/Co-I for optical computing research.",
         "Led R&D of optical computing hardware achieving first room-temperature demonstration of cascadable, universal polariton logic gates — enabling all-optical Boolean operations without electronic conversion (Nature Communications, 2024).",
-        "Designed novel neuromorphic device architecture using Bose-Einstein condensates for massively parallel optical processing with sub-nanosecond switching speeds.",
+        "Designed novel neuromorphic device architecture using Bose-Einstein condensates for massively parallel optical processing with sub-picosecond switching speeds.",
         "Developed programmable spatial control system for optical computing elements using SLMs and real-time feedback, enabling reconfigurable architectures (Phys. Rev. Lett., 2023).",
         "Built end-to-end hardware-software stack: optical setup → real-time acquisition (100+ GB/day) → automated analysis pipeline, reducing experiment iteration cycles by 5×."
       ]
@@ -116,7 +137,7 @@
       "period": "Nov 2022 – Dec 2024",
       "location": "Moscow, Russia",
       "bullets": [
-        "Demonstrated first nanosecond-scale optical switching in organic polariton devices — 1000× faster than previous organic systems, enabling viable clock speeds for optical computing (Appl. Phys. Lett., 2020 — Editor's Choice).",
+        "Demonstrated first nanosecond-long polariton lasing in organic polariton microcavities — 1000× longer than intrisic state's life-times (Appl. Phys. Lett., 2020 — Editor's Choice).",
         "Developed computational models for coherent light-matter interactions, validated against experimental data for predictive device design.",
         "Built automated optical characterization systems integrating ultrafast lasers, spatial light modulators, and high-speed detectors with software control.",
         "Investigated novel material systems (organic semiconductors, perovskites) for room-temperature optical computing applications.",
@@ -304,7 +325,15 @@
       "approach": "Designed organic microcavity devices where exciton-polaritons — hybrid light-matter quasiparticles — form condensates that act as optical switches. Built a custom ultrafast optical setup with spatial light modulators for programmable gate addressing, real-time LabVIEW/Python data acquisition processing 100+ GB/day, and FPGA-integrated timing control. Iterated through 50+ device geometries to achieve the cascading threshold.",
       "result": "First demonstration of room-temperature, cascadable, all-optical universal NOR gates using polariton condensates. Achieved 1000x faster switching than electronic equivalents. Showed that the output of one gate can directly drive the next — the critical requirement for building real circuits.",
       "implications": "Validates all-optical computing as a viable path for AI inference hardware. The cascadability result means polariton logic can scale beyond single-gate demonstrations toward integrated photonic circuits. Directly relevant to next-generation AI accelerator architectures that bypass electronic bottlenecks.",
-      "tags": ["Python", "C/C++", "LabVIEW", "FPGA", "Ultrafast Optics", "Device Fabrication", "Data Acquisition"],
+      "tags": [
+        "Python",
+        "C/C++",
+        "LabVIEW",
+        "FPGA",
+        "Ultrafast Optics",
+        "Device Fabrication",
+        "Data Acquisition"
+      ],
       "image": "assets/NatComm2.png",
       "links": [
         {
