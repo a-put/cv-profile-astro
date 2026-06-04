@@ -187,7 +187,7 @@
       }
     },
     {
-      "authors": "A. D. Putintsev*, K. E. McGhee, D. A. Sannikov, A. V. Zasedatelev, J. D. Töpfer, T. Jessewitsch, U. Scherf, D. G. Lidzey, P. G. Lagoudakis",
+      "authors": "A. D. Putintsev, K. E. McGhee, D. A. Sannikov, A. V. Zasedatelev, J. D. Töpfer, T. Jessewitsch, U. Scherf, D. G. Lidzey, P. G. Lagoudakis",
       "title": "Controlling the spatial profile and energy landscape of organic polariton condensates in double-dye cavities",
       "corresponding": true,
       "journal": "Phys. Rev. Lett.",
@@ -227,7 +227,7 @@
       }
     },
     {
-      "authors": "A. D. Putintsev*, A. Zasedatelev, K. E. McGhee, T. Cookson, D. Sannikov, K. Georgiou, D. G. Lidzey, P. G. Lagoudakis",
+      "authors": "A. D. Putintsev, A. Zasedatelev, K. E. McGhee, T. Cookson, D. Sannikov, K. Georgiou, D. G. Lidzey, P. G. Lagoudakis",
       "title": "Nano-second exciton-polariton lasing in organic microcavities",
       "corresponding": false,
       "journal": "Appl. Phys. Lett.",
@@ -243,7 +243,7 @@
       "image": "assets/APLnanosec.png"
     },
     {
-      "authors": "A. D. Putintsev*, A. V. Zasedatelev, V. Shishkov, M. Misko, D. A. Sannikov, E. Andrianov, Y. Lozovik, U. Scherf, P. G. Lagoudakis",
+      "authors": "A. D. Putintsev, A. V. Zasedatelev, V. Shishkov, M. Misko, D. A. Sannikov, E. Andrianov, Y. Lozovik, U. Scherf, P. G. Lagoudakis",
       "title": "Photon statistics of organic polariton condensates",
       "corresponding": true,
       "journal": "Phys. Rev. B",
