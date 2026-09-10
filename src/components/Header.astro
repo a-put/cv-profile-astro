@@ -77,14 +77,33 @@ const taglineData = taglines && taglines.length ? JSON.stringify(taglines) : nul
     </div>
   </div>
 
-  {cvLink && (
-    <a href={`${base}/${cvLink}`} download target="_blank" rel="noopener noreferrer"
-       class="cv-download-btn" aria-label="Download CV" title="Download CV">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M8 2v9m0 0l-3-3m3 3l3-3"/>
-        <path d="M2 12v1.5a1 1 0 001 1h10a1 1 0 001-1V12"/>
+  {/* Affordance for the press-and-hold gravity well — shown once, then remembered */}
+  <p id="particle-hint" class="particle-hint" hidden>hold to gather</p>
+
+  <div class="header-actions">
+    <button id="motion-toggle" type="button" class="motion-toggle"
+            aria-pressed="false" aria-label="Pause header animation" title="Pause header animation">
+      <svg class="motion-icon-on" width="15" height="15" viewBox="0 0 16 16" fill="none"
+           stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <path d="M1 8c1.4-2.4 2.8-2.4 4.2 0S8 10.4 9.4 8s2.8-2.4 4.2 0"/>
+        <path d="M1 12c1.4-2.4 2.8-2.4 4.2 0" opacity="0.45"/>
       </svg>
-      <span>CV</span>
-    </a>
-  )}
+      <svg class="motion-icon-off" width="15" height="15" viewBox="0 0 16 16" fill="none"
+           stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <path d="M1 8h13"/>
+        <path d="M1 12h5" opacity="0.45"/>
+      </svg>
+    </button>
+
+    {cvLink && (
+      <a href={`${base}/${cvLink}`} download target="_blank" rel="noopener noreferrer"
+         class="cv-download-btn" aria-label="Download CV" title="Download CV">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 2v9m0 0l-3-3m3 3l3-3"/>
+          <path d="M2 12v1.5a1 1 0 001 1h10a1 1 0 001-1V12"/>
+        </svg>
+        <span>CV</span>
+      </a>
+    )}
+  </div>
 </header>

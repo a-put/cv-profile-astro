@@ -75,7 +75,7 @@ html[data-theme="dark"] header {
   z-index: 0;
 }
 
-header>div {
+header>div:not(.header-actions) {
   position: relative;
   z-index: 1;
 }
@@ -884,12 +884,83 @@ html[data-theme="dark"] .badge-gold {
   50% { opacity: 0; }
 }
 
-/* ── Download CV button ──────────────────────────────────── */
-.cv-download-btn {
+/* ── Header action group (motion toggle + CV button) ─────── */
+.header-actions {
   position: absolute;
   bottom: 0.75rem;
   right: 1rem;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Header motion toggle ────────────────────────────────── */
+.motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 980px;
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.motion-toggle:hover {
+  opacity: 1;
+  background: var(--surface);
+}
+
+.motion-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  opacity: 1;
+}
+
+/* Icon swaps with the pressed state */
+.motion-toggle .motion-icon-off { display: none; }
+.motion-toggle[aria-pressed="true"] .motion-icon-on { display: none; }
+.motion-toggle[aria-pressed="true"] .motion-icon-off { display: inline; }
+
+header.has-bg-image .motion-toggle { color: #ffffff; }
+
+/* ── Press-and-hold affordance ───────────────────────────── */
+.particle-hint {
+  position: absolute;
+  bottom: 1rem;
+  left: 1.25rem;
+  z-index: 1;
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.particle-hint.is-visible { opacity: 0.55; }
+
+header.has-bg-image .particle-hint { color: #ffffff; }
+
+@media (max-width: 640px) {
+  .particle-hint { display: none; }
+}
+
+/* While the gravity well is engaged, don't grow a text selection */
+header.particles-grabbing {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── Download CV button ──────────────────────────────────── */
+.cv-download-btn {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -1739,7 +1810,7 @@ html[data-theme="dark"] #icon-moon {
     padding-right: 1rem !important;
   }
 
-  header>div {
+  header>div:not(.header-actions) {
     display: grid !important;
     grid-template-columns: 72px 1fr;
     gap: 0 0.875rem !important;
@@ -1748,7 +1819,7 @@ html[data-theme="dark"] #icon-moon {
   }
 
   /* flatten the inner text div into the grid */
-  header>div>div {
+  header>div:not(.header-actions)>div {
     display: contents;
   }
 

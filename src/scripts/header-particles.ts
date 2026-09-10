@@ -3,7 +3,21 @@
 // Extracted from main.js initHeaderParticles().
 
 (function initHeaderParticles() {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // Reduced motion renders one static frame instead of nothing — see the
+  // bottom of this file. An explicit choice from the header toggle wins over
+  // the OS preference; with no choice stored we follow the OS.
+  const MOTION_KEY = 'cv-header-motion';
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function storedMotion(): string | null {
+    try { return localStorage.getItem(MOTION_KEY); } catch { return null; }
+  }
+  function wantsReducedMotion() {
+    const choice = storedMotion();
+    if (choice === 'off') return true;
+    if (choice === 'on') return false;
+    return motionQuery.matches;
+  }
+  let reduceMotion = wantsReducedMotion();
 
   const canvas = document.getElementById('header-canvas') as HTMLCanvasElement | null;
   if (!canvas) return;
@@ -11,14 +25,69 @@
   const header = canvas.closest('header')!;
 
   const BASE_COUNT = 340;
-  const initW = window.innerWidth;
-  const COUNT = Math.round(BASE_COUNT * (initW <= 480 ? 0.5 : initW <= 768 ? 0.7 : 1.0));
+
+  // ── Adaptive quality ────────────────────────────────────────
+  // The header is sticky, so it animates for the whole visit. Rather than
+  // pick one cost and hope, start from what the device advertises and then
+  // step down if real frames come in slow. `dots` scales the simulated
+  // population, `connect` the link radius (~90% of canvas calls come from
+  // connection lines), `dpr` caps backing-store pixels — the big mobile win,
+  // where devicePixelRatio is routinely 3.
+  // Link count scales as (dots^2 * connect^2) / area, so cutting both at once
+  // compounds and the web — the whole point of the design — falls apart before
+  // the cost does. Each tier therefore thins the population while holding the
+  // radius up, which keeps the structure legible at roughly:
+  //   high 1.00x links, medium 0.60x, low 0.33x, minimum 0.18x
+  const QUALITY = [
+    { name: 'high', dots: 1.00, connect: 70, dpr: 2.0 },
+    { name: 'medium', dots: 0.85, connect: 64, dpr: 2.0 },
+    { name: 'low', dots: 0.70, connect: 57, dpr: 1.5 },
+    { name: 'minimum', dots: 0.55, connect: 54, dpr: 1.0 },
+  ];
+
+  // Startup tier from what the browser will tell us. This is a ceiling:
+  // runtime adaptation may drop below it but never climbs above it.
+  function detectTier() {
+    const cores = navigator.hardwareConcurrency || 4;
+    const mem = (navigator as any).deviceMemory || 4;
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
+    let score = 0;
+    if (cores >= 8) score += 2; else if (cores >= 4) score += 1;
+    if (mem >= 8) score += 2; else if (mem >= 4) score += 1;
+    if (!coarse) score += 1;                  // a mouse implies a desktop
+    if (window.innerWidth >= 1024) score += 1;
+    if (score >= 5) return 0;
+    if (score >= 3) return 1;
+    return 2;
+  }
+
+  const CEILING_TIER = detectTier();
+  let tier = CEILING_TIER;
+  let quality = QUALITY[tier];
+
+  // Frame-cost budget driving the runtime steps. A decorative header should
+  // stay far under a 16.7ms frame; the gap between the two thresholds is the
+  // hysteresis that stops it oscillating between tiers.
+  // Dropping a tier is cheap and should happen quickly; climbing back is a
+  // gamble that costs a visible population change if it is wrong, so it needs
+  // a much lower cost, a far longer stable window, and a hard cap on attempts.
+  // Without that asymmetry the loop flaps between adjacent tiers forever.
+  const COST_STEP_DOWN = 4.0;   // ms of smoothed tick cost -> drop a tier
+  const COST_STEP_UP = 1.0;     // ms -> consider climbing back
+  const DOWN_COOLDOWN = 2000;   // ms of settling after a downgrade
+  const UP_COOLDOWN = 15000;    // ms of sustained headroom before an upgrade
+  const MAX_CLIMBS = 3;         // total upgrade attempts per session
+  let smoothedCost = 0, lastTierChange = 0, climbsLeft = MAX_CLIMBS;
+
+  function dprValue() {
+    return Math.min(window.devicePixelRatio || 1, QUALITY[CEILING_TIER].dpr);
+  }
   const REPEL_RADIUS = 90;
   const REPEL_STR = 4;
   const SPRING = 0.06;
   const DAMPING = 0.82;
   const DOT_R = 1.5;
-  const CONNECT_RADIUS = 70;
+  let CONNECT_RADIUS = QUALITY[CEILING_TIER].connect;
   const CONNECT_ALPHA = 0.18;
   const MARGIN = 0.20; // fraction of canvas to extend grid beyond edges
   const DRIFT_AMP = 20;
@@ -31,13 +100,19 @@
   const CAT = false;  // set to false to disable the wandering pixel cat
   const JELLYFISH = false;  // set to false to disable the floating pixel jellyfish
   const JF_SCALE = 3;     // pixel size for jellyfish
-  const CR2 = CONNECT_RADIUS * CONNECT_RADIUS;
+  let CR2 = CONNECT_RADIUS * CONNECT_RADIUS;
   const DR2 = DOT_REPEL_R * DOT_REPEL_R;
 
   const BUCKETS = 5;
   const buckets: any[] = Array.from({ length: BUCKETS }, () => []);
   const DB = 10; // dark mode blend buckets
   const darkBuckets: any[] = Array.from({ length: DB }, () => []);
+  // Light mode: bucket dot indices once per frame rather than re-scanning the
+  // whole array per bucket. LB = base alpha, WB = wake glow, RB = ripple glow.
+  const LB = 8, WB = 4, RB = 4;
+  const lightBuckets: any[] = Array.from({ length: LB }, () => []);
+  const wakeBuckets: any[] = Array.from({ length: WB }, () => []);
+  const rippleBuckets: any[] = Array.from({ length: RB }, () => []);
   const spatialHash = new Map(); // reused each frame — cleared, not recreated
   let dotWf: any = [], dotRf: any = [], dotBr: any = []; // per-dot scratch: wake, ripple, breathe (dotsByDepth order)
   let dotWake: any = [];  // per-dot wake factor in dots[] order (for connection brightening)
@@ -68,6 +143,11 @@
   const CONSTEL_ROTATE_SPEED = 0.08;    // radians per second once fully formed
   const CONSTEL_GRAVITY_R = 160;        // lensing pull radius
   const CONSTEL_GRAVITY_STR = 0.08;     // fraction of spring strength for inward pull
+  // Ambient mode: with no cursor on the header, constellations still form on
+  // their own at a drifting point, so the effect is seen without interaction.
+  const AMBIENT_DELAY = 2000;    // ms cursor must be away before ambient takes over
+  const AMBIENT_LIFETIME = 9000; // ms a constellation holds before moving elsewhere
+  const AMBIENT_EDGE = 0.18;     // keep the ambient point off the canvas edges
 
   // Compute MST of a set of points using Prim's algorithm
   // points: [{x, y, idx}] — returns edge list [[i, j], ...]
@@ -102,6 +182,7 @@
     return edges;
   }
 
+  let activeCount = 0;
   let dots: any[] = [], dotsByDepth: any[] = [], mouse = { x: -9999, y: -9999 },
     prevMouse = { x: -9999, y: -9999 }, turbulence = 0, ripples: any[] = [], t = 0,
     scrollProgress = 0, tiltX = 0, tiltY = 0,
@@ -122,6 +203,8 @@
   let constelAllActive = false;
   let constelMaxEdgeLen = 1; // max edge length for opacity scaling
   const CONSTEL_GHOST_DURATION = 2500;
+  let ambientActive = false, ambientX = 0, ambientY = 0;
+  let ambientNextAt = 0, cursorAwaySince = 0, ambientJustMoved = false;
   const constelMap = new Map();
 
   // ── Pixel cat ────────────────────────────────────────────────
@@ -307,11 +390,11 @@
   }
 
   function buildDots() {
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = dprValue();
     const w = canvas.width / dpr, h = canvas.height / dpr;
     const mx = w * MARGIN, my = h * MARGIN;
     const W2 = w + 2 * mx, H2 = h + 2 * my;
-    const total = Math.round(COUNT * (W2 * H2) / (w * h));
+    const total = Math.round(BASE_COUNT * (window.innerWidth <= 480 ? 0.5 : window.innerWidth <= 768 ? 0.7 : 1.0) * (W2 * H2) / (w * h));
     dots = [];
     const cols = Math.ceil(Math.sqrt(total * (W2 / H2)));
     const rows = Math.ceil(total / cols);
@@ -325,7 +408,35 @@
         dots.push({ hx, hy, x: hx, y: hy, vx: 0, vy: 0, depth, phase, lastDisplaced: 0, angle: 0, ghostUntil: 0 });
       }
     }
-    dotsByDepth = dots.slice().sort((a: any, b: any) => a.depth - b.depth);
+    // Fisher-Yates: dots are generated in grid order, so an unshuffled prefix
+    // would be the top rows only. Shuffling makes dots.slice(0, n) an even
+    // scatter across the whole field, which is what the tier scaling takes.
+    for (let i = dots.length - 1; i > 0; i--) {
+      const j = (Math.random() * (i + 1)) | 0;
+      const tmp = dots[i]; dots[i] = dots[j]; dots[j] = tmp;
+    }
+    setActiveCount(Math.round(dots.length * quality.dots));
+  }
+
+  // Changing the live population invalidates the depth ordering and any
+  // constellation holding indices that may now be past the end.
+  function setActiveCount(n: number) {
+    activeCount = Math.max(3, Math.min(dots.length, n));
+    dotsByDepth = dots.slice(0, activeCount).sort((a: any, b: any) => a.depth - b.depth);
+    constelDots = null; constelEdges = null; constelOrder = null;
+    constelOffsets = null; constelActivated = null; constelActivatedAt = null;
+    constelAllActive = false; constelWasActive = false;
+    constelMap.clear();
+  }
+
+  // Move to a new quality tier without rebuilding the canvas: dots keep their
+  // positions, only how many are live and how far they link changes.
+  function applyQuality(next: number) {
+    tier = Math.max(0, Math.min(QUALITY.length - 1, next));
+    quality = QUALITY[tier];
+    CONNECT_RADIUS = quality.connect;
+    CR2 = CONNECT_RADIUS * CONNECT_RADIUS;
+    setActiveCount(Math.round(dots.length * quality.dots));
   }
 
   function buildCatSprites() {
@@ -820,13 +931,32 @@
     if (jf) drawOneJF(ctx, jf, isDark);  // near jellyfish in front
   }
 
+  // Paint one set of index buckets as a single path per bucket.
+  // `scale` caps the alpha ramp: 1 for the base pass, lower for glow passes.
+  function drawBuckets(bs: any[], count: number, r: number, g: number, b: number, scale: number) {
+    for (let bi = 0; bi < count; bi++) {
+      const bucket = bs[bi];
+      if (!bucket.length) continue;
+      const alpha = ((bi + 0.5) / count) * scale;
+      ctx.fillStyle = `rgba(${r},${g},${b},${alpha.toFixed(3)})`;
+      ctx.beginPath();
+      for (const i of bucket) {
+        const d = dotsByDepth[i];
+        const radius = DOT_R * (0.4 + 0.9 * d.depth) * dotBr[i];
+        ctx.moveTo(d.x + radius, d.y);
+        ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
+      }
+      ctx.fill();
+    }
+  }
+
   function updateRect() { canvasRect = canvas.getBoundingClientRect(); }
 
   let resizeTimer: any;
   function resize() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = dprValue();
       const newW = header.offsetWidth * dpr;
       const newH = header.offsetHeight * dpr;
       // Skip if dimensions unchanged — prevents mobile address-bar resize from
@@ -852,7 +982,7 @@
     t = (t + DRIFT_SPEED) % (Math.PI * 2000);
     pulseT += PULSE_WANDER_SPEED;
     const now = performance.now();
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = dprValue();
     const W = canvas.width / dpr, H = canvas.height / dpr;
     ctx.clearRect(0, 0, W, H);
 
@@ -879,11 +1009,37 @@
     // ── Scroll gravity offset ────────────────────────────────
     const gravityOffset = (scrollProgress - 0.5) * GRAVITY_STR;
 
+    // ── Focus point — the cursor when present, else a drifting ambient point ──
+    const cursorOnHeader = mouse.x > -9000;
+    if (cursorOnHeader) {
+      ambientActive = false;
+      cursorAwaySince = 0;
+      ambientNextAt = 0;
+    } else if (CONSTELLATION && !reduceMotion) {
+      if (!cursorAwaySince) cursorAwaySince = now;
+      const due = !ambientActive
+        ? now - cursorAwaySince > AMBIENT_DELAY
+        : now > ambientNextAt;
+      if (due) {
+        const m = AMBIENT_EDGE;
+        ambientX = W * (m + Math.random() * (1 - 2 * m));
+        ambientY = H * (m + Math.random() * (1 - 2 * m));
+        ambientNextAt = now + AMBIENT_LIFETIME;
+        ambientActive = true;
+        ambientJustMoved = true;
+      }
+    }
+    const focusPresent = cursorOnHeader || ambientActive;
+    const focusX = cursorOnHeader ? mouse.x : ambientX;
+    const focusY = cursorOnHeader ? mouse.y : ambientY;
+
     // ── Idle constellation detection ────────────────────────
-    const cursorMoved = !CONSTELLATION || Math.abs(mouse.x - idleMx) > 2.5 || Math.abs(mouse.y - idleMy) > 2.5;
-    if (cursorMoved || mouse.x < -9000) {
+    const cursorMoved = !CONSTELLATION || ambientJustMoved
+      || Math.abs(focusX - idleMx) > 2.5 || Math.abs(focusY - idleMy) > 2.5;
+    ambientJustMoved = false;
+    if (cursorMoved || !focusPresent) {
       // Dissolve ripple + ghost glow when breaking an active constellation
-      if (constelWasActive && mouse.x > -9000) {
+      if (constelWasActive && focusPresent) {
         ripples.push({ x: idleMx, y: idleMy, r: 0, str: RIPPLE_STR * 0.35 });
         if (constelDots) {
           for (let k = 0; k < constelDots.length; k++) {
@@ -892,8 +1048,8 @@
         }
       }
       idleSince = now;
-      idleMx = mouse.x;
-      idleMy = mouse.y;
+      idleMx = focusX;
+      idleMy = focusY;
       constelDots = null;
       constelEdges = null;
       constelOrder = null;
@@ -906,14 +1062,14 @@
     }
     const idleTime = now - idleSince;
     let constelBlend = 0;
-    if (idleTime > CONSTEL_IDLE && mouse.x > -9000 && !attracting) {
+    if (idleTime > CONSTEL_IDLE && focusPresent && !attracting) {
       constelBlend = Math.min(1, (idleTime - CONSTEL_IDLE) / CONSTEL_RAMP);
       if (!constelDots) {
         // Pick N nearest dots (by home position distance to cursor)
         const candidates: any[] = [];
         const r2 = CONSTEL_SEARCH_R * CONSTEL_SEARCH_R;
-        for (let i = 0; i < dots.length; i++) {
-          const dx = dots[i].hx - mouse.x, dy = dots[i].hy - mouse.y;
+        for (let i = 0; i < activeCount; i++) {
+          const dx = dots[i].hx - focusX, dy = dots[i].hy - focusY;
           const d2 = dx * dx + dy * dy;
           if (d2 < r2) candidates.push({ idx: i, d2 });
         }
@@ -969,14 +1125,14 @@
           }
           for (let i = 0; i < constelDots.length; i++) { if (!visited.has(i)) order.push(i); }
           constelOrder = order;
-          constelCx = mouse.x;
-          constelCy = mouse.y;
+          constelCx = focusX;
+          constelCy = focusY;
           // Offsets include tightened position (pulled toward centroid)
           constelOffsets = constelDots.map((di: number) => {
             const hx = dots[di].hx, hy = dots[di].hy;
             return {
-              ox: hx - mouse.x + (cx - hx) * CONSTEL_TIGHTEN,
-              oy: hy - mouse.y + (cy - hy) * CONSTEL_TIGHTEN,
+              ox: hx - focusX + (cx - hx) * CONSTEL_TIGHTEN,
+              oy: hy - focusY + (cy - hy) * CONSTEL_TIGHTEN,
             };
           });
           constelActivated = new Array(constelDots.length).fill(false);
@@ -1027,7 +1183,7 @@
     const tiltBaseY = Math.max(-1, Math.min(1, tiltY / 25)) * TILT_AMP;
     const cursorActive = mouse.x > -9000;
     frameCount++;
-    for (let i = 0; i < dots.length; i++) {
+    for (let i = 0; i < activeCount; i++) {
       const d = dots[i];
       const constelLocalIdx = constelBlend > 0 ? constelMap.get(i) : undefined;
       const inConstellation = constelLocalIdx !== undefined;
@@ -1106,7 +1262,7 @@
 
     // ── Per-dot wake factor (dots[] order) for connection brightening ──
     if (dotWake.length < dots.length) dotWake = new Float32Array(dots.length);
-    for (let i = 0; i < dots.length; i++) {
+    for (let i = 0; i < activeCount; i++) {
       let wk = Math.max(0, 1 - (now - dots[i].lastDisplaced) / WAKE_DURATION);
       // Ghost glow from dissolved constellation — longer, fainter
       if (dots[i].ghostUntil > now) {
@@ -1118,7 +1274,7 @@
 
     // ── Build spatial hash (cell = CONNECT_RADIUS, covers both radii) ──
     spatialHash.clear();
-    for (let i = 0; i < dots.length; i++) {
+    for (let i = 0; i < activeCount; i++) {
       const cx = Math.floor(dots[i].x / CONNECT_RADIUS);
       const cy = Math.floor(dots[i].y / CONNECT_RADIUS);
       const key = cx * 1000 + cy;
@@ -1130,7 +1286,7 @@
     // ── Combined pass: dot–dot repulsion + connection bucket assignment ──
     // Single 3×3 neighborhood query handles both — halves hash lookups per frame.
     for (let i = 0; i < BUCKETS; i++) buckets[i].length = 0;
-    for (let i = 0; i < dots.length; i++) {
+    for (let i = 0; i < activeCount; i++) {
       const cx = Math.floor(dots[i].x / CONNECT_RADIUS);
       const cy = Math.floor(dots[i].y / CONNECT_RADIUS);
       for (let nx = cx - 1; nx <= cx + 1; nx++) {
@@ -1166,7 +1322,8 @@
     }
 
     // ── Integrate positions ───────────────────────────────────
-    for (const d of dots) {
+    for (let i = 0; i < activeCount; i++) {
+      const d = dots[i];
       d.x += d.vx;
       d.y += d.vy;
     }
@@ -1200,6 +1357,11 @@
     if (dotWf.length < n) { dotWf = new Float32Array(n); dotRf = new Float32Array(n); dotBr = new Float32Array(n); }
     const breathePhase = now * 0.001 * BREATHE_SPEED;
     const BR2 = BREATHE_RADIUS * BREATHE_RADIUS;
+    if (!isDark) {
+      for (let i = 0; i < LB; i++) lightBuckets[i].length = 0;
+      for (let i = 0; i < WB; i++) wakeBuckets[i].length = 0;
+      for (let i = 0; i < RB; i++) rippleBuckets[i].length = 0;
+    }
     for (let i = 0; i < n; i++) {
       const d = dotsByDepth[i];
       let wf = Math.max(0, 1 - (now - d.lastDisplaced) / WAKE_DURATION);
@@ -1225,6 +1387,16 @@
           dotBr[i] = 1 + proximity * pulse * BREATHE_AMP;
         } else { dotBr[i] = 1; }
       } else { dotBr[i] = 1; }
+
+      // Light mode: assign this dot to its alpha buckets in the same pass.
+      // Glow buckets take a dot only when it actually glows — a dot at rest
+      // has wf/rf of 0 and must not be drawn a second and third time.
+      if (!isDark) {
+        const baseAlpha = 0.2 + 0.6 * d.depth;
+        lightBuckets[Math.min(LB - 1, (baseAlpha * LB) | 0)].push(i);
+        if (wf > 0) wakeBuckets[Math.min(WB - 1, (wf * WB) | 0)].push(i);
+        if (rf > 0) rippleBuckets[Math.min(RB - 1, (rf * RB) | 0)].push(i);
+      }
     }
 
     if (isDark) {
@@ -1257,61 +1429,12 @@
         ctx.fill();
       }
     } else {
-      // Light mode: all dots same colour — batch by alpha bucket
-      const DBUCKETS = 8;
-      for (let bi = 0; bi < DBUCKETS; bi++) {
-        const alphaMin = bi / DBUCKETS;
-        const alphaMax = (bi + 1) / DBUCKETS;
-        const alphaMid = (alphaMin + alphaMax) / 2;
-        ctx.fillStyle = `rgba(${cr},${cg},${cb},${alphaMid.toFixed(2)})`;
-        ctx.beginPath();
-        for (let i = 0; i < n; i++) {
-          const d = dotsByDepth[i];
-          const alpha = 0.2 + 0.6 * d.depth;
-          if (alpha >= alphaMin && alpha < alphaMax) {
-            const radius = DOT_R * (0.4 + 0.9 * d.depth) * dotBr[i];
-            ctx.moveTo(d.x + radius, d.y);
-            ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
-          }
-        }
-        ctx.fill();
-      }
-      // Wake glow pass — precomputed dotWf[], batched into buckets
-      const WBUCKETS = 4;
-      for (let wi = 0; wi < WBUCKETS; wi++) {
-        const wMin = wi / WBUCKETS, wMax = (wi + 1) / WBUCKETS;
-        const wMid = (wMin + wMax) / 2 * 0.45;
-        ctx.fillStyle = `rgba(${cr},${cg},${cb},${wMid.toFixed(2)})`;
-        ctx.beginPath();
-        for (let i = 0; i < n; i++) {
-          const wf = dotWf[i];
-          if (wf >= wMin && wf < wMax) {
-            const d = dotsByDepth[i];
-            const radius = DOT_R * (0.4 + 0.9 * d.depth) * dotBr[i];
-            ctx.moveTo(d.x + radius, d.y);
-            ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
-          }
-        }
-        ctx.fill();
-      }
-      // Ripple glow pass — precomputed dotRf[], batched into buckets
-      const RBUCKETS = 4;
-      for (let ri = 0; ri < RBUCKETS; ri++) {
-        const rMin = ri / RBUCKETS, rMax = (ri + 1) / RBUCKETS;
-        const rMid = (rMin + rMax) / 2 * 0.5;
-        ctx.fillStyle = `rgba(${cr},${cg},${cb},${rMid.toFixed(2)})`;
-        ctx.beginPath();
-        for (let i = 0; i < n; i++) {
-          const rf = dotRf[i];
-          if (rf >= rMin && rf < rMax) {
-            const d = dotsByDepth[i];
-            const radius = DOT_R * (0.4 + 0.9 * d.depth) * dotBr[i];
-            ctx.moveTo(d.x + radius, d.y);
-            ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
-          }
-        }
-        ctx.fill();
-      }
+      // Light mode: three bucketed passes over pre-assigned index lists.
+      // Base pass paints every dot once; the glow passes paint only the dots
+      // that are actually woken or rippling.
+      drawBuckets(lightBuckets, LB, cr, cg, cb, 1);
+      drawBuckets(wakeBuckets, WB, cr, cg, cb, 0.45);
+      drawBuckets(rippleBuckets, RB, cr, cg, cb, 0.5);
     }
 
     // ── Draw constellation (edge lines + star dots) ──────────
@@ -1360,13 +1483,35 @@
     tickCat(W, H);
     drawCat(ctx, H);
 
-    headerRafId = requestAnimationFrame(tick);
+    // ── Adaptive quality ─────────────────────────────────────
+    // Smoothed cost of this tick decides whether the effect is affordable on
+    // whatever machine is actually running it. Re-seeded after every change so
+    // the next decision is made on fresh evidence.
+    const cost = performance.now() - now;
+    // Carried across tier changes on purpose: the cooldowns give it time to
+    // converge on the new tier, so a decision is never made on one frame.
+    smoothedCost = smoothedCost === 0 ? cost : smoothedCost * 0.92 + cost * 0.08;
+    if (frameCount > 90) {
+      const since = now - lastTierChange;
+      if (smoothedCost > COST_STEP_DOWN && tier < QUALITY.length - 1 && since > DOWN_COOLDOWN) {
+        applyQuality(tier + 1);
+        lastTierChange = now;
+      } else if (smoothedCost < COST_STEP_UP && tier > CEILING_TIER
+                 && since > UP_COOLDOWN && climbsLeft > 0) {
+        climbsLeft--;
+        applyQuality(tier - 1);
+        lastTierChange = now;
+      }
+    }
+
+    if (!reduceMotion) headerRafId = requestAnimationFrame(tick);
   }
 
   // Burst dots outward from cursor — called on gravity-well release
   function explode() {
     const stamp = performance.now();
-    for (const d of dots) {
+    for (let i = 0; i < activeCount; i++) {
+      const d = dots[i];
       const ex = d.x - mouse.x, ey = d.y - mouse.y;
       const edist = Math.hypot(ex, ey);
       if (edist < ATTRACT_R && edist > 0) {
@@ -1379,16 +1524,61 @@
   }
 
   header.addEventListener('mousemove', (e: MouseEvent) => {
+    if (reduceMotion) return;
     mouse.x = e.clientX - canvasRect.left;
     mouse.y = e.clientY - canvasRect.top;
   });
   header.addEventListener('mouseleave', () => {
     mouse.x = mouse.y = -9999;
-    if (attracting) { attracting = false; explode(); }
+    endHold();
   });
+
+  // ── Desktop: press and hold to gather, quick click to ripple ──
+  // Replaces a Shift-only gravity well that had no affordance at all.
+  // Shift still works as a keyboard-reachable alternative.
+  const HOLD_MS = 180;
+  let holdTimer: any = null;
+  let touchFired = false;
+
+  function isInteractive(target: EventTarget | null) {
+    return target instanceof Element
+      && !!target.closest('a, button, input, textarea, select, [role="button"]');
+  }
+
+  // Ends a press: releasing before HOLD_MS is a click (ripple), releasing
+  // after it drops the gravity well and bursts the dots outward.
+  function endHold(release?: MouseEvent) {
+    if (holdTimer) {
+      clearTimeout(holdTimer);
+      holdTimer = null;
+      if (release && !reduceMotion) spawnRipple(release.clientX, release.clientY);
+    }
+    if (attracting) { attracting = false; explode(); }
+    header.classList.remove('particles-grabbing');
+  }
+
+  header.addEventListener('mousedown', (e: MouseEvent) => {
+    if (touchFired) { touchFired = false; return; } // synthetic event after a tap
+    if (reduceMotion || e.button !== 0 || isInteractive(e.target)) return;
+    clearTimeout(holdTimer);
+    holdTimer = setTimeout(() => {
+      holdTimer = null;
+      attracting = true;
+      header.classList.add('particles-grabbing');
+      dismissHint(true);
+    }, HOLD_MS);
+  });
+
+  header.addEventListener('mouseup', (e: MouseEvent) => {
+    if (isInteractive(e.target)) { clearTimeout(holdTimer); holdTimer = null; return; }
+    endHold(e);
+  });
+  // Release outside the header still has to let go
+  window.addEventListener('mouseup', () => { if (holdTimer || attracting) endHold(); });
 
   // Desktop: Shift key toggles gravity well
   window.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (reduceMotion) return;
     if (e.key === 'Shift' && !attracting && mouse.x > -9000) attracting = true;
   });
   window.addEventListener('keyup', (e: KeyboardEvent) => {
@@ -1396,8 +1586,8 @@
   });
 
   // Touch: repulsion tracking + ripple on tap; long-press (500ms) = gravity well
-  let touchFired = false;
   header.addEventListener('touchstart', (e: TouchEvent) => {
+    if (reduceMotion) return;
     touchFired = true;
     updateRect();
     const t0 = e.touches[0];
@@ -1427,6 +1617,7 @@
 
   // ── Device tilt parallax (mobile) ────────────────────────
   function setupTilt() {
+    if (reduceMotion) return;
     if (typeof DeviceOrientationEvent === 'undefined') return;
     let calibX: number | null = null, calibY: number | null = null;
 
@@ -1453,18 +1644,13 @@
   }
   setupTilt();
 
-  // Mouse click (desktop only — skip if touch already handled it)
-  header.addEventListener('click', (e: MouseEvent) => {
-    if (touchFired) { touchFired = false; return; }
-    spawnRipple(e.clientX, e.clientY);
-  });
   window.addEventListener('resize', resize);
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && !headerRafId) headerRafId = requestAnimationFrame(tick);
+    if (!document.hidden && !headerRafId && !reduceMotion) headerRafId = requestAnimationFrame(tick);
   });
 
   // Initial setup — run immediately, not debounced
-  const dpr0 = window.devicePixelRatio || 1;
+  const dpr0 = dprValue();
   canvas.width = header.offsetWidth * dpr0;
   canvas.height = header.offsetHeight * dpr0;
   ctx.setTransform(dpr0, 0, 0, dpr0, 0, 0);
@@ -1474,10 +1660,85 @@
   updateRect();
   // Fade in after first two frames are rendered so there's no blank flash
   canvas.style.opacity = '0';
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // tick() paints a full frame and only re-arms rAF when motion is allowed,
+  // so reduced motion gets a static dot field rather than an empty header.
   tick();
   requestAnimationFrame(() => requestAnimationFrame(() => {
     canvas.style.transition = reduceMotion ? '' : 'opacity 0.8s ease';
     canvas.style.opacity = '1';
   }));
+
+  // Start or stop the loop to match the current preference.
+  function applyMotionState() {
+    const wants = wantsReducedMotion();
+    if (wants === reduceMotion) return;
+    reduceMotion = wants;
+    if (reduceMotion) {
+      if (headerRafId) cancelAnimationFrame(headerRafId);
+      headerRafId = 0;
+      mouse.x = mouse.y = -9999;
+      attracting = false;
+      ambientActive = false;
+      ripples.length = 0;
+      endHold();
+      canvas.style.transition = '';
+      tick(); // repaint one settled frame
+    } else if (!headerRafId) {
+      canvas.style.transition = 'opacity 0.8s ease';
+      headerRafId = requestAnimationFrame(tick);
+    }
+  }
+
+  if (typeof motionQuery.addEventListener === 'function') {
+    motionQuery.addEventListener('change', applyMotionState);
+  } else {
+    (motionQuery as any).addListener(applyMotionState); // Safari < 14
+  }
+
+  // ── Header motion toggle ──────────────────────────────────
+  const motionBtn = document.getElementById('motion-toggle');
+  if (motionBtn) {
+    const syncMotionBtn = () => {
+      motionBtn.setAttribute('aria-pressed', String(reduceMotion));
+      const label = reduceMotion ? 'Resume header animation' : 'Pause header animation';
+      motionBtn.setAttribute('aria-label', label);
+      motionBtn.setAttribute('title', label);
+    };
+    syncMotionBtn();
+    motionBtn.addEventListener('click', () => {
+      try { localStorage.setItem(MOTION_KEY, reduceMotion ? 'on' : 'off'); } catch { }
+      applyMotionState();
+      syncMotionBtn();
+      if (reduceMotion) dismissHint(true);
+    });
+  }
+
+  // ── One-time affordance for press-and-hold ────────────────
+  const HINT_KEY = 'cv-header-hint-seen';
+  const HINT_VISIBLE_MS = 4500;
+  const hintEl = document.getElementById('particle-hint');
+  let hintTimer: any = null;
+
+  function hintSeen() {
+    try { return localStorage.getItem(HINT_KEY) === '1'; } catch { return true; }
+  }
+
+  function dismissHint(remember: boolean) {
+    clearTimeout(hintTimer);
+    hintTimer = null;
+    if (!hintEl) return;
+    hintEl.classList.remove('is-visible');
+    if (remember) { try { localStorage.setItem(HINT_KEY, '1'); } catch { } }
+    setTimeout(() => { if (hintEl && !hintEl.classList.contains('is-visible')) hintEl.hidden = true; }, 700);
+  }
+
+  function maybeShowHint() {
+    if (!hintEl || reduceMotion || hintSeen() || hintTimer) return;
+    hintEl.hidden = false;
+    // Next frame, so the transition has a starting value to animate from
+    requestAnimationFrame(() => hintEl.classList.add('is-visible'));
+    hintTimer = setTimeout(() => dismissHint(true), HINT_VISIBLE_MS);
+  }
+
+  header.addEventListener('mouseenter', maybeShowHint);
 })();
