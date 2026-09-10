@@ -243,17 +243,17 @@
       "image": "assets/APLnanosec.png"
     },
     {
-      "authors": "A. D. Putintsev, A. V. Zasedatelev, V. Shishkov, M. Misko, D. A. Sannikov, E. Andrianov, Y. Lozovik, U. Scherf, P. G. Lagoudakis",
-      "title": "Photon statistics of organic polariton condensates",
-      "corresponding": true,
-      "journal": "Phys. Rev. B",
-      "ref": "110, 045125",
-      "year": "2024",
-      "doi": "https://doi.org/10.1103/PhysRevB.110.045125",
-      "pdf": "https://doi.org/10.1103/PhysRevB.110.045125",
+      "authors": "I. I. Krasionov, A. D. Putintsev, E. D. Grayfer, T. Cookson, D. Tatarinov, A. P. Pushkarev, D. A. Sannikov, P. G. Lagoudakis",
+      "title": "Single-Shot Flow Spectroscopy of a Polariton Condensate: Kibble-Zurek and Kolmogorov-Like Scaling",
+      "corresponding": false,
+      "journal": "arXiv",
+      "ref": "2601.22719",
+      "year": "2026",
+      "doi": "https://doi.org/10.48550/arXiv.2601.22719",
+      "pdf": "https://arxiv.org/pdf/2601.22719",
       "badges": [],
-      "layman": "Using single-shot detection, researchers have measured the second-order coherence function g⁽²⁾(0) of organic polariton condensates at room temperature, finding values as low as 1.00034 ± 10⁻⁵ — intensity fluctuations only ~100 times the shot-noise limit, competitive with results previously achieved only at cryogenic temperatures. Crucially, reducing the condensate size increases quantum noise not due to enhanced spatial disorder, which was found to be size-independent, but due to kinetic losses from polariton outflow at the condensate boundary, suppressing thermalization and broadening the particle-number distribution. This contrasts sharply with conventional laser behavior and highlights the non-equilibrium nature of polariton condensation, while demonstrating its viability as a low-noise platform for room-temperature quantum photonic applications.",
-      "image": "assets/PRBg2.png"
+      "layman": "Quantized vortices are fundamental topological excitations of quantum fluids. We report single-shot interferometric measurements of spontaneous vortex nucleation in a room-temperature organic exciton-polariton condensate. From hundreds of independent realizations we find random vortex-core positions and unbiased circulation, consistent with intrinsically stochastic, unpinned defect formation. The mean vortex number scales with pump power above threshold with an exponent consistent with Kibble-Zurek freeze-out in a driven-dissipative condensate. Using reconstructed phase maps we obtain single-shot flow fields, compute the incompressible component, and extract kinetic-energy spectra.",
+      "image": ""
     },
     {
       "authors": "D. A. Sannikov, N. M. Urazova, M. D. Kolker, G. D. Ivanov, A. D. Putintsev, A. V. Averchenko, D. Khmelevskaia, L. T. Sahharova, N. S. Shlapakov, I. Paschos, P. G. Savvidis, V. P. Ananikov, P. G. Lagoudakis",
@@ -280,6 +280,19 @@
       "badges": [],
       "layman": "Tunable polariton lasing is demonstrated at room temperature in an all-inorganic CsPbBr₃ perovskite microcavity with an adjustable air-gap, achieving the widest spectral tuning range reported for perovskite polariton lasers to date. The orthorhombic crystal symmetry induces a birefringence-driven mode splitting, enabling simultaneous condensation into two orthogonally polarized polariton branches. The demonstrated in situ tunability and compatibility with electrical injection position this platform as a strong candidate for compact coherent light sources and cascadable polariton logic gates at ambient conditions.",
       "image": "assets/AOM25v2.png"
+    },
+    {
+      "authors": "A. D. Putintsev, A. V. Zasedatelev, V. Shishkov, M. Misko, D. A. Sannikov, E. Andrianov, Y. Lozovik, U. Scherf, P. G. Lagoudakis",
+      "title": "Photon statistics of organic polariton condensates",
+      "corresponding": true,
+      "journal": "Phys. Rev. B",
+      "ref": "110, 045125",
+      "year": "2024",
+      "doi": "https://doi.org/10.1103/PhysRevB.110.045125",
+      "pdf": "https://doi.org/10.1103/PhysRevB.110.045125",
+      "badges": [],
+      "layman": "Using single-shot detection, researchers have measured the second-order coherence function g⁽²⁾(0) of organic polariton condensates at room temperature, finding values as low as 1.00034 ± 10⁻⁵ — intensity fluctuations only ~100 times the shot-noise limit, competitive with results previously achieved only at cryogenic temperatures. Crucially, reducing the condensate size increases quantum noise not due to enhanced spatial disorder, which was found to be size-independent, but due to kinetic losses from polariton outflow at the condensate boundary, suppressing thermalization and broadening the particle-number distribution. This contrasts sharply with conventional laser behavior and highlights the non-equilibrium nature of polariton condensation, while demonstrating its viability as a low-noise platform for room-temperature quantum photonic applications.",
+      "image": "assets/PRBg2.png"
     },
     {
       "authors": "K. E. McGhee, A. D. Putintsev, R. Jayaprakash, K. Georgiou, M. E. O'Kane, R. C. Kilbride, E. J. Cassella, M. Cavazzini, D. A. Sannikov, P. G. Lagoudakis, D. G. Lidzey",
