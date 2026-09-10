@@ -256,6 +256,19 @@
       "image": "assets/PRBg2.png"
     },
     {
+      "authors": "D. A. Sannikov, N. M. Urazova, M. D. Kolker, G. D. Ivanov, A. D. Putintsev, A. V. Averchenko, D. Khmelevskaia, L. T. Sahharova, N. S. Shlapakov, I. Paschos, P. G. Savvidis, V. P. Ananikov, P. G. Lagoudakis",
+      "title": "Mapping the Strong-to-Weak Coupling Crossover in Polymer-Film Microcavity Lasers",
+      "corresponding": false,
+      "journal": "Nanophotonics",
+      "ref": "Volume 15, Issue 14",
+      "year": "2026",
+      "doi": "https://doi.org/10.1002/nap2.70214",
+      "pdf": "https://onlinelibrary.wiley.com/doi/epdf/10.1002/nap2.70214",
+      "badges": [],
+      "layman": "Here, we present planar organic microcavities incorporating MeLPPP as the active medium, in which continuous tuning of the effective cavity length within a single device enables us to map the strong-to-weak coupling transition across five distinct cavity-mode orders. We demonstrate an approximately eighteen-fold increase in the lasing threshold when crossing from polariton to photon lasing. We further establish a quantitative framework in which the spectral dependence of the threshold governs a universal V-shaped blueshift of the emission energy across both coupling regimes. Finally, we show that vibron-mediated exciton relaxation, previously identified in the strong-coupling limit, persists across the crossover: lasing-threshold minima track the vibron resonances throughout the coupling transition.",
+      "image": ""
+    },
+    {
       "authors": "M. D. Kolker, I. I. Krasionov, A. D. Putintsev, E. D. Grayfer, T. Cookson, D. Tatarinov, A. P. Pushkarev, D. A. Sannikov, P. G. Lagoudakis",
       "title": "Room temperature broadband polariton lasing from a CsPbBr₃ perovskite plate",
       "corresponding": false,
