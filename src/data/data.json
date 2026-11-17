@@ -9,12 +9,11 @@
   "degree": "PhD",
   "title": "Optical Computing Researcher | AI Hardware R&D",
   "taglines": [
-    "Building AI hardware with light",
+    "Uncoventional computing with light",
     "First room-temp polariton logic gates",
-    "Nature Comms & PRL published",
-    "Bridging photonics and AI"
+    "Nature Comms & PRL published"
   ],
-  "description": "Anton Putintsev, PhD - optical physicist building next-generation AI hardware using light. PhD in Physics",
+  "description": "Anton Putintsev, PhD - physicist building unconvetional computing platforms using light. PhD in Physics",
   "cvLink": "assets/CV_Anton_Putintsev.pdf",
   "location": "",
   "languages": "",
@@ -25,7 +24,7 @@
   "telegram": "https://t.me/antonputintsev",
   "googleScholar": "https://scholar.google.com/citations?user=0DTNvukAAAAJ&hl=en",
   "orcid": "https://orcid.org/0000-0002-9192-1344",
-  "about": "**tldr:** First in the world to demonstrate room-temperature cascadable polariton logic gates — bridging optical physics and practical AI hardware. 6+ years turning novel photonic architectures into working devices.\n\nPhysicist with deep expertise in condensed matter physics, device physics, ultrafast optical systems, and hardware-software co-design. Built real-time data acquisition pipelines processing 100+ GB/day, designed FPGA-integrated control stacks, and led the fabrication and characterization of organic microcavity devices. Published in Nature Communications and Physical Review Letters (incl. Editor's Suggestion). Experienced across the full experimental loop: device design, nanofabrication, optical characterization, data analysis, and publication.",
+  "about": "**tldr:** First in the world to demonstrate room-temperature cascadable polariton logic gates — bridging optical physics and practical digital computing. 6+ years turning novel photonic architectures into working devices.\n\nPhysicist with deep expertise in condensed matter physics, device physics, ultrafast optical systems, and hardware-software co-design. Built real-time data acquisition pipelines processing 100+ GB/day, and led the fabrication and characterization of organic microcavity devices. Published in Nature Communications and Physical Review Letters (incl. Editor's Suggestion). Experienced across the full experimental loop: device design, nanofabrication, optical characterization, data analysis, and publication.",
   "availability": {
     "status": "Open to opportunities",
     "roles": [
