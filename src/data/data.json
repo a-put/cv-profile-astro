@@ -176,8 +176,8 @@
       "pdf": "https://doi.org/10.48550/arXiv.2601.22719",
       "featured": true,
       "badges": [
-        "Letter",
-        "Editor's Suggestion"
+        "Editor's Suggestion",
+        "Letter"  
       ],
       "layman": "Spontaneous vortices reveal how order emerges in nonequilibrium quantum fluids. Here, the authors use single-shot interferometry to reconstruct phase and flow in a room-temperature organic polariton condensate. They find vortices predominantly at boundaries between opposing flows, with positions and circulation signs varying from shot to shot. Vortex statistics and flow spectra provide complementary probes of Kibble-Zurek and Kolmogorov-like scaling, opening a route to systematic studies of defect formation and hydrodynamics in driven-dissipative quantum fluids.",
       "image": "assets/PRB_KPZ.png",
