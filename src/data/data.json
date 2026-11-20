@@ -165,6 +165,26 @@
     }
   ],
   "publications": [
+     {
+      "authors": "I. Krasionov, A. D. Putintsev, M. Kolker, T. Cookson, S. Alyatkin, P. G. Lagoudakis",
+      "title": "Single-shot flow spectroscopy of a polariton condensate: Kibble-Zurek and Kolmogorov-like scaling",
+      "corresponding": false,
+      "journal": "Phys. Rev. B",
+      "ref": "114, L291410",
+      "year": "2026",
+      "doi": "https://doi.org/10.1103/n1hh-2r73",
+      "pdf": "https://doi.org/10.48550/arXiv.2601.22719",
+      "featured": true,
+      "badges": [
+        "Editor's Suggestion"
+      ],
+      "layman": "Spontaneous vortices reveal how order emerges in nonequilibrium quantum fluids. Here, the authors use single-shot interferometry to reconstruct phase and flow in a room-temperature organic polariton condensate. They find vortices predominantly at boundaries between opposing flows, with positions and circulation signs varying from shot to shot. Vortex statistics and flow spectra provide complementary probes of Kibble-Zurek and Kolmogorov-like scaling, opening a route to systematic studies of defect formation and hydrodynamics in driven-dissipative quantum fluids.",
+      "image": "assets/PRB_KPZ.png",
+      "altmetric": {
+        "url": "https://aps.altmetric.com/details/doi/10.1103/n1hh-2r73",
+        "label": "PRB Letter"
+      }
+    },
     {
       "authors": "D. Sannikov, A. V. Baranikov, A. D. Putintsev, M. Misko, A. V. Zasedatelev, U. Scherf, P. G. Lagoudakis",
       "title": "Room temperature, cascadable, all-optical polariton universal gates",
